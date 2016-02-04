@@ -1,15 +1,10 @@
 ﻿using System;
-<<<<<<< HEAD
 using BattleSDK;
 using System.Collections.Generic;
-=======
-using BattleSDK;
->>>>>>> Maxi
 
 namespace GameManager
 {
 	public class GameManager
-<<<<<<< HEAD
 	{
 
         int size = 10;
@@ -33,12 +28,6 @@ namespace GameManager
                 ships.Add(new Ship(r.Next(6) + 2) { X = 0, Y = 0 });
             }
             return ships;
-        }
-
-=======
-	{
-		public BattleshipKI PlayGame(BattleshipKI first, BattleshipKI second);
->>>>>>> Maxi
-	}
+		}       
 }
 
