@@ -3,14 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GameManager;
 
-namespace battleship
+namespace GameManager
 {
     class Program
     {
-        private static int numGames = 11;
+        private static int numGames = 0;
         static void Main(string[] args)
         {
+			Console.WriteLine ("Loading KIs...");
+			KIs.LoadKIs ();
+
+			Console.WriteLine ("Avaliable KIs");
+			foreach(Type ki in KIs.AvaliableKIs){
+				Console.WriteLine ("    " + KIs.NewKi (ki, 10).GetName ());
+			}
+
             Console.WriteLine("");
 
             string[] botNames = {"bot_a", "b", "c", "ds"};

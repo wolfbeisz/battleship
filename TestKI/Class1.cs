@@ -30,7 +30,8 @@ namespace TestKI
 
         public override void Shoot(out int x, out int y)
         {
-
+			x = 1;
+			y = 1;
         }
 
         public override void Notify(int x, int y, bool hit, bool deadly)

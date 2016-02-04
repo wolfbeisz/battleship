@@ -1,0 +1,7 @@
+/Users/beppo/Projects/Battleship/GameManager/obj/x86/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/Users/beppo/Projects/Battleship/GameManager/bin/Debug/BattleSDK.dll
+/Users/beppo/Projects/Battleship/GameManager/bin/Debug/BattleSDK.dll.mdb
+/Users/beppo/Projects/Battleship/GameManager/bin/Debug/GameManager.exe.mdb
+/Users/beppo/Projects/Battleship/GameManager/bin/Debug/GameManager.exe
+/Users/beppo/Projects/Battleship/GameManager/obj/x86/Debug/GameManager.exe
+/Users/beppo/Projects/Battleship/GameManager/obj/x86/Debug/GameManager.exe.mdb
