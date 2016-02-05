@@ -11,6 +11,9 @@ namespace BattleSDK{
         public Ship(int size){
             Size = size;
         }
+        public Ship Copy(){
+            return new Ship(this.Size) {Y = this.Y, X = this.X, Dir = this.Dir, Hits = this.Hits };
+        }
     }
 }
 

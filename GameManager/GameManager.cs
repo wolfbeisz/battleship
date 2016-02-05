@@ -7,31 +7,61 @@ namespace GameManager
 	public class GameManager
 	{
 
-        int size = 10;
-        int shipAmount = 5;
+        private int size = 10;
+        private int shipAmount = 5;
+        private List<Ship> shipsKI1;
+        private List<Ship> shipsKI2;
         
         List<BattleshipKI> KIList = new List<BattleshipKI>();
 
         public Type PlayGame(Type first, Type second){
 
             //Liste mit Schiffen für die beiden KIs 
-            List<Ship> shipsKI1 = createShips();
-            List<Ship> shipsKI2 = new List<Ship>(shipsKI1);
+            List<Ship> tmpShipsKI1 = createShips();
+            List<Ship> tmpShipsKI2 = new List<Ship>(tmpShipsKI1);
 
             //Die KIs zu einer Liste hinzufügen
             KIList.Add(KIs.NewKi(first, size));
             KIList.Add(KIs.NewKi(second, size));
 
             // Den KIs die Schiffe übergeben
-            KIList[0].SetShips(shipsKI1);
-            KIList[1].SetShips(shipsKI2);
+            KIList[0].SetShips(tmpShipsKI1);
+            KIList[1].SetShips(tmpShipsKI2);
 
-            foreach(Ship s in shipsKI1){
+            bool KI1valid = false; 
+            bool KI2valid = false;
 
+            foreach(Ship s in tmpShipsKI1){
+                  if(validatePos(s)){
+                     KI1valid = true;
+                  } else {
+                      KI1valid = false;
+                      break;
+                  }
             }
 
+             foreach(Ship s in tmpShipsKI2){
+                  if(validatePos(s)){
+                     KI2valid = true;
+                  } else {
+                     KI2valid = false;
+                     break;
+                  }
+            }
            
+            if(!KI1valid && !KI2valid){
+                return null;
+            }
 
+            if(KI1valid && !KI2valid){
+                return first;
+            }
+
+            if(!KI1valid && KI2valid){
+                return second;
+            }
+
+            //copy and clear
 
 
         }
@@ -39,19 +69,12 @@ namespace GameManager
         private bool validatePos(Ship s){
             bool[,] field = new bool[this.size, this.size];
 
-            if(field[s.X,s.Y]){
-                return false;
-            }
-
+            bool[,] coords = new bool[this.size, this.size];
             switch(s.Dir){
                 case Direction.HORIZONTAL:
                     try{
-                        for(int i = 1; i <= s.Size; i++){
-                            bool test = field[s.X + i, s.Y];
-                            
-                            if(test){
-                                return false;
-                            }
+                        for(int i = 0; i < s.Size; i++){
+                            coords[s.X + i, s.Y] = true;
                         }                        
                     }catch(IndexOutOfRangeException){
                         return false;
@@ -59,17 +82,45 @@ namespace GameManager
                     break;
                 case Direction.VERTICAL:
                     try{
-                        for(int i = 1; i <= s.Size; i++){
-                            bool test = field[s.X, s.Y + i];
-                        }
+                        coords[s.X, s.Y + 1] = true;
                     }catch(IndexOutOfRangeException){
                         return false;
                     }
                     break;
             }
 
+            return SetCoordinates(coords, field);
+        }
 
-            
+        private bool SetCoordinates(bool[,] coords, bool[,] field){
+            for(int x = 0; x < this.size; x++){
+                for(int y = 0; y < this.size; y++){
+                    if(!coords[x, y])
+                        continue;
+
+                    if(field[x, y])
+                        return false;
+
+                    if(x > 0 && field[x - 1, y] && !coords[x - 1, y]){
+                        return false;
+                    }
+
+                    if(x < this.size -1 && field[x + 1, y] && !coords[x + 1, y]){
+                        return false;
+                    }
+                    
+                    if(y > 0 && field[x, y - 1] && !coords[x, y - 1]){
+                        return false;
+                    }
+
+                    if(y < this.size -1 && field[x, y + 1] && !coords[x, y + 1]){
+                        return false;
+                    }
+
+                    field[x, y] = true;
+                }
+            }
+
             return true;
         }
 
