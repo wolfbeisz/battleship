@@ -1,5 +1,0 @@
-H:\Battleship\projectgame-battleship-d3d413e2b385\GameManager\bin\Debug\Players\TestKI.dll
-H:\Battleship\projectgame-battleship-d3d413e2b385\GameManager\bin\Debug\Players\TestKI.pdb
-H:\Battleship\projectgame-battleship-d3d413e2b385\TestKI\obj\Debug\TestKI.csprojResolveAssemblyReference.cache
-H:\Battleship\projectgame-battleship-d3d413e2b385\TestKI\obj\Debug\TestKI.dll
-H:\Battleship\projectgame-battleship-d3d413e2b385\TestKI\obj\Debug\TestKI.pdb

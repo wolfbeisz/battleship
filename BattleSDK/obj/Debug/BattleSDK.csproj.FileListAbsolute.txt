@@ -1,4 +1,0 @@
-H:\Battleship\projectgame-battleship-d3d413e2b385\BattleSDK\bin\Debug\BattleSDK.dll
-H:\Battleship\projectgame-battleship-d3d413e2b385\BattleSDK\bin\Debug\BattleSDK.pdb
-H:\Battleship\projectgame-battleship-d3d413e2b385\BattleSDK\obj\Debug\BattleSDK.dll
-H:\Battleship\projectgame-battleship-d3d413e2b385\BattleSDK\obj\Debug\BattleSDK.pdb
