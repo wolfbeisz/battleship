@@ -12,21 +12,23 @@ namespace GameManager
         private List<Ship> shipsKI1;
         private List<Ship> shipsKI2;
         
-        List<BattleshipKI> KIList = new List<BattleshipKI>();
+        BattleshipKI KI1;
+        BattleshipKI KI2;
 
         public Type PlayGame(Type first, Type second){
+
+            this.KI1 = KIs.NewKi(first, size);
+            this.KI2 = KIs.NewKi(second, size);
+
 
             //Liste mit Schiffen für die beiden KIs 
             List<Ship> tmpShipsKI1 = createShips();
             List<Ship> tmpShipsKI2 = new List<Ship>(tmpShipsKI1);
 
-            //Die KIs zu einer Liste hinzufügen
-            KIList.Add(KIs.NewKi(first, size));
-            KIList.Add(KIs.NewKi(second, size));
 
             // Den KIs die Schiffe übergeben
-            KIList[0].SetShips(tmpShipsKI1);
-            KIList[1].SetShips(tmpShipsKI2);
+            KI1.SetShips(tmpShipsKI1);
+            KI2.SetShips(tmpShipsKI2);
 
             bool KI1valid = false; 
             bool KI2valid = false;
@@ -63,7 +65,114 @@ namespace GameManager
 
             //copy and clear
 
+            shipsKI1 = new List<Ship>();
+            shipsKI2 = new List<Ship>();
 
+            foreach(Ship s in tmpShipsKI1){
+                Ship copy = s.Copy();
+                copy.Hits.Clear();
+                shipsKI1.Add(copy);
+            }
+
+            foreach(Ship s in tmpShipsKI2){
+                Ship copy = s.Copy();
+                copy.Hits.Clear();
+                shipsKI2.Add(copy);
+            }
+
+            bool ki1won = false;
+            bool ki2won = false;
+            bool firstTurn = new Random().Next(2) == 0;
+
+            
+
+            while(!(ki1won || ki2won)){
+                
+                bool hit = false;
+                bool deadly = false;
+                int x = -1;
+                int y = -1;
+
+                BattleshipKI cur = firstTurn ? KI1 : KI2;
+
+                cur.Shoot(out x, out y);
+
+                if(x < 0 || y < 0|| x > 9 || y > 9){
+                    if(cur == KI1){ 
+                        return second;
+                    } else {
+                        return first;
+                    }
+                }
+
+
+                List<Ship> curKIShips = cur == KI1 ? shipsKI2 : shipsKI1;
+
+
+
+                foreach(Ship s in curKIShips){
+                    for(int i = 0; i < s.Size; i++){
+                        if(s.Dir == Direction.HORIZONTAL){
+                            int sY = s.Y;
+                            int sX = s.X + i;
+
+                            if(sX == x && sY == y){
+                                hit = true;
+                                if(!s.Hits.Contains(i)){
+                                    s.Hits.Add(i);
+                                    if(s.Hits.Count == s.Size){
+                                        deadly = true;
+                                        if(checkGameOver(curKIShips)){
+                                            if(cur == KI1){ 
+                                                return first;
+                                            } else {
+                                                return second;
+                                            }
+                                        }
+                                    }
+                                }
+                            }                            
+                        } else {
+                            int sY = s.Y + i;
+                            int sX = s.X;
+
+                            if(sX == x && sY == y){
+                                hit = true;
+                                if(!s.Hits.Contains(i)){
+                                    s.Hits.Add(i);
+                                    if(s.Hits.Count == s.Size){
+                                        deadly = true;
+                                        if(checkGameOver(curKIShips)){
+                                            if(cur == KI1){ 
+                                                return first;
+                                            } else {
+                                                return second;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                cur.Notify(x, y, hit, deadly);
+                firstTurn = !firstTurn;
+            }
+
+
+
+
+        }
+
+        private bool checkGameOver(List<Ship> curKIShips){
+
+            foreach(Ship s in curKIShips){
+                if(!(s.Hits.Count == s.Size)){
+                    return false;
+                }
+            }
+        return true;
         }
 
         private bool validatePos(Ship s){
