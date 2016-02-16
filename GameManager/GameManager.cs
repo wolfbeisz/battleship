@@ -4,19 +4,19 @@ using System.Collections.Generic;
 
 namespace GameManager
 {
-	public class GameManager
-	{
+    public class GameManager
+    {
 
         private int size = 10;
         private int shipAmount = 5;
         private List<Ship> shipsKI1;
         private List<Ship> shipsKI2;
-        
+
         BattleshipKI KI1;
         BattleshipKI KI2;
 
-        public Type PlayGame(Type first, Type second){
-
+        public Type PlayGame(Type first, Type second)
+        {
             this.KI1 = KIs.NewKi(first, size);
             this.KI2 = KIs.NewKi(second, size);
 
@@ -30,36 +30,49 @@ namespace GameManager
             KI1.SetShips(tmpShipsKI1);
             KI2.SetShips(tmpShipsKI2);
 
-            bool KI1valid = false; 
+            bool KI1valid = false;
             bool KI2valid = false;
 
-            foreach(Ship s in tmpShipsKI1){
-                  if(validatePos(s)){
-                     KI1valid = true;
-                  } else {
-                      KI1valid = false;
-                      break;
-                  }
+            foreach (Ship s in tmpShipsKI1)
+            {
+                if (validatePos(s))
+                {
+                    KI1valid = true;
+                }
+                else
+                {
+                    KI1valid = false;
+                    break;
+                }
+            }
+            
+
+            foreach (Ship s in tmpShipsKI2)
+            {
+                if (validatePos(s))
+                {
+                    KI2valid = true;
+                }
+                else
+                {
+                    KI2valid = false;
+                    break;
+                }
             }
 
-             foreach(Ship s in tmpShipsKI2){
-                  if(validatePos(s)){
-                     KI2valid = true;
-                  } else {
-                     KI2valid = false;
-                     break;
-                  }
-            }
-           
-            if(!KI1valid && !KI2valid){
+
+            if (!KI1valid && !KI2valid)
+            {
                 return null;
             }
 
-            if(KI1valid && !KI2valid){
+            if (KI1valid && !KI2valid)
+            {
                 return first;
             }
 
-            if(!KI1valid && KI2valid){
+            if (!KI1valid && KI2valid)
+            {
                 return second;
             }
 
@@ -68,13 +81,15 @@ namespace GameManager
             shipsKI1 = new List<Ship>();
             shipsKI2 = new List<Ship>();
 
-            foreach(Ship s in tmpShipsKI1){
+            foreach (Ship s in tmpShipsKI1)
+            {
                 Ship copy = s.Copy();
                 copy.Hits.Clear();
                 shipsKI1.Add(copy);
             }
 
-            foreach(Ship s in tmpShipsKI2){
+            foreach (Ship s in tmpShipsKI2)
+            {
                 Ship copy = s.Copy();
                 copy.Hits.Clear();
                 shipsKI2.Add(copy);
@@ -84,23 +99,33 @@ namespace GameManager
             bool ki2won = false;
             bool firstTurn = new Random().Next(2) == 0;
 
-            
 
-            while(!(ki1won || ki2won)){
-                
+
+            while (!(ki1won || ki2won))
+            {
+
                 bool hit = false;
                 bool deadly = false;
                 int x = -1;
                 int y = -1;
 
                 BattleshipKI cur = firstTurn ? KI1 : KI2;
+                try{
+                    cur.Shoot(out x, out y);
+                }
+                catch (Exception e){
+                    Console.WriteLine(cur.GetName() + " threw Exception and lost the game");
+                    return cur == KI1 ? first : second;
+                }
 
-                cur.Shoot(out x, out y);
-
-                if(x < 0 || y < 0|| x > 9 || y > 9){
-                    if(cur == KI1){ 
+                if (x < 0 || y < 0 || x > 9 || y > 9)
+                {
+                    if (cur == KI1)
+                    {
                         return second;
-                    } else {
+                    }
+                    else
+                    {
                         return first;
                     }
                 }
@@ -110,42 +135,61 @@ namespace GameManager
 
 
 
-                foreach(Ship s in curKIShips){
-                    for(int i = 0; i < s.Size; i++){
-                        if(s.Dir == Direction.HORIZONTAL){
+                foreach (Ship s in curKIShips)
+                {
+                    for (int i = 0; i < s.Size; i++)
+                    {
+                        if (s.Dir == Direction.HORIZONTAL)
+                        {
                             int sY = s.Y;
                             int sX = s.X + i;
 
-                            if(sX == x && sY == y){
+                            if (sX == x && sY == y)
+                            {
                                 hit = true;
-                                if(!s.Hits.Contains(i)){
+                                if (!s.Hits.Contains(i))
+                                {
                                     s.Hits.Add(i);
-                                    if(s.Hits.Count == s.Size){
+                                    if (s.Hits.Count == s.Size)
+                                    {
                                         deadly = true;
-                                        if(checkGameOver(curKIShips)){
-                                            if(cur == KI1){ 
+                                        if (checkGameOver(curKIShips))
+                                        {
+                                            if (cur == KI1)
+                                            {
                                                 return first;
-                                            } else {
+                                            }
+                                            else
+                                            {
                                                 return second;
                                             }
                                         }
                                     }
                                 }
-                            }                            
-                        } else {
+                            }
+                        }
+                        else
+                        {
                             int sY = s.Y + i;
                             int sX = s.X;
 
-                            if(sX == x && sY == y){
+                            if (sX == x && sY == y)
+                            {
                                 hit = true;
-                                if(!s.Hits.Contains(i)){
+                                if (!s.Hits.Contains(i))
+                                {
                                     s.Hits.Add(i);
-                                    if(s.Hits.Count == s.Size){
+                                    if (s.Hits.Count == s.Size)
+                                    {
                                         deadly = true;
-                                        if(checkGameOver(curKIShips)){
-                                            if(cur == KI1){ 
+                                        if (checkGameOver(curKIShips))
+                                        {
+                                            if (cur == KI1)
+                                            {
                                                 return first;
-                                            } else {
+                                            }
+                                            else
+                                            {
                                                 return second;
                                             }
                                         }
@@ -164,34 +208,46 @@ namespace GameManager
 
         }
 
-        private bool checkGameOver(List<Ship> curKIShips){
+        private bool checkGameOver(List<Ship> curKIShips)
+        {
 
-            foreach(Ship s in curKIShips){
-                if(!(s.Hits.Count == s.Size)){
+            foreach (Ship s in curKIShips)
+            {
+                if (!(s.Hits.Count == s.Size))
+                {
                     return false;
                 }
             }
-        return true;
+            return true;
         }
 
-        private bool validatePos(Ship s){
+        private bool validatePos(Ship s)
+        {
             bool[,] field = new bool[this.size, this.size];
 
             bool[,] coords = new bool[this.size, this.size];
-            switch(s.Dir){
+            switch (s.Dir)
+            {
                 case Direction.HORIZONTAL:
-                    try{
-                        for(int i = 0; i < s.Size; i++){
+                    try
+                    {
+                        for (int i = 0; i < s.Size; i++)
+                        {
                             coords[s.X + i, s.Y] = true;
-                        }                        
-                    }catch(IndexOutOfRangeException){
+                        }
+                    }
+                    catch (IndexOutOfRangeException)
+                    {
                         return false;
                     }
                     break;
                 case Direction.VERTICAL:
-                    try{
+                    try
+                    {
                         coords[s.X, s.Y + 1] = true;
-                    }catch(IndexOutOfRangeException){
+                    }
+                    catch (IndexOutOfRangeException)
+                    {
                         return false;
                     }
                     break;
@@ -200,28 +256,35 @@ namespace GameManager
             return SetCoordinates(coords, field);
         }
 
-        private bool SetCoordinates(bool[,] coords, bool[,] field){
-            for(int x = 0; x < this.size; x++){
-                for(int y = 0; y < this.size; y++){
-                    if(!coords[x, y])
+        private bool SetCoordinates(bool[,] coords, bool[,] field)
+        {
+            for (int x = 0; x < this.size; x++)
+            {
+                for (int y = 0; y < this.size; y++)
+                {
+                    if (!coords[x, y])
                         continue;
 
-                    if(field[x, y])
+                    if (field[x, y])
                         return false;
 
-                    if(x > 0 && field[x - 1, y] && !coords[x - 1, y]){
+                    if (x > 0 && field[x - 1, y] && !coords[x - 1, y])
+                    {
                         return false;
                     }
 
-                    if(x < this.size -1 && field[x + 1, y] && !coords[x + 1, y]){
-                        return false;
-                    }
-                    
-                    if(y > 0 && field[x, y - 1] && !coords[x, y - 1]){
+                    if (x < this.size - 1 && field[x + 1, y] && !coords[x + 1, y])
+                    {
                         return false;
                     }
 
-                    if(y < this.size -1 && field[x, y + 1] && !coords[x, y + 1]){
+                    if (y > 0 && field[x, y - 1] && !coords[x, y - 1])
+                    {
+                        return false;
+                    }
+
+                    if (y < this.size - 1 && field[x, y + 1] && !coords[x, y + 1])
+                    {
                         return false;
                     }
 
@@ -232,13 +295,16 @@ namespace GameManager
             return true;
         }
 
-        private List<Ship> createShips(){
+        private List<Ship> createShips()
+        {
             Random r = new Random();
             List<Ship> ships = new List<Ship>();
-            for (int i = 0; i < shipAmount; i++){
+            for (int i = 0; i < shipAmount; i++)
+            {
                 ships.Add(new Ship(r.Next(6) + 2) { X = 0, Y = 0 });
             }
             return ships;
-		}       
+        }
+    }
 }
 
