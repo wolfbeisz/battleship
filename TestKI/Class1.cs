@@ -103,7 +103,7 @@ namespace TestKI
             }
             else
             {
-                for (int i = 0; i < ship.Size; i++)
+                for (int i = 0; i < ship.Size - 1; i++)
                 {
                     if (!shipField[ship.X, ship.Y + i])
                         return false;
