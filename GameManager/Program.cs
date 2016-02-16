@@ -17,13 +17,11 @@ namespace GameManager
 			KIs.LoadKIs();
 
 			Console.WriteLine ("Avaliable KIs:");
-            Type[] bots = new Type[KIs.AvaliableKIs.Count()];
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             foreach (Type ki in KIs.AvaliableKIs)
             {
                 Console.WriteLine(KIs.NewKi(ki, -1).GetName());
-                bots.
 			}
             Console.ForegroundColor = ConsoleColor.Red;
             if (KIs.AvaliableKIs.Count() == 0)
@@ -40,11 +38,11 @@ namespace GameManager
             }
             Console.ResetColor();
 
-            for (int i = 0; i < bots.Length; i++)
+            for (int i = 0; i < KIs.AvaliableKIs.Count(); i++)
             {
-                for (int j = i + 1; j < bots.Length; j++)
+                for (int j = i + 1; j < KIs.AvaliableKIs.Count(); j++)
                 {
-                    match(bots[i], bots[j]);
+                    match(KIs.AvaliableKIs[i], KIs.AvaliableKIs[j]);
                 }
             }
             Console.WriteLine("\n\n\n\n");
