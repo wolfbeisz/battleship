@@ -26,37 +26,77 @@ namespace GameManager
             List<Ship> tmpShipsKI2 = new List<Ship>(tmpShipsKI1);
 
 
-            // Den KIs die Schiffe übergeben
-            KI1.SetShips(tmpShipsKI1);
-            KI2.SetShips(tmpShipsKI2);
+            bool firstToBeChecked = new Random().Next(2) == 0;
 
-            bool KI1valid = false;
-            bool KI2valid = false;
-
-            foreach (Ship s in tmpShipsKI1)
-            {
-                if (validatePos(s))
-                {
-                    KI1valid = true;
+            if (firstToBeChecked) {
+                try {
+                    KI1.SetShips(tmpShipsKI1);
+                } catch (Exception e){
+                    Console.WriteLine("Error setting ships of " + KI1.GetName());
+                    return second;
                 }
-                else
-                {
-                    KI1valid = false;
-                    break;
+                try {
+                    KI2.SetShips(tmpShipsKI2);
+                } catch (Exception e) {
+                    Console.WriteLine("Error setting ships of " + KI2.GetName());
+                    return first;
+                }
+            } else {
+                try {
+                    KI2.SetShips(tmpShipsKI2);
+                } catch (Exception e) {
+                    Console.WriteLine("Error setting ships of " + KI2.GetName());
+                    return first;
+                }
+                try {
+                    KI1.SetShips(tmpShipsKI1);
+                } catch (Exception e) {
+                    Console.WriteLine("Error setting ships of " + KI1.GetName());
+                    return second;
                 }
             }
             
 
-            foreach (Ship s in tmpShipsKI2)
-            {
-                if (validatePos(s))
-                {
-                    KI2valid = true;
+            bool KI1valid = false;
+            bool KI2valid = false;
+
+            if (firstToBeChecked) {
+
+                foreach (Ship s in tmpShipsKI1) {
+                    if (validatePos(s)) {
+                        KI1valid = true;
+                    } else {
+                        KI1valid = false;
+                        break;
+                    }
                 }
-                else
-                {
-                    KI2valid = false;
-                    break;
+
+                foreach (Ship s in tmpShipsKI2) {
+                    if (validatePos(s)) {
+                        KI2valid = true;
+                    } else {
+                        KI2valid = false;
+                        break;
+                    }
+                }
+            } else {
+
+                foreach (Ship s in tmpShipsKI2) {
+                    if (validatePos(s)) {
+                        KI2valid = true;
+                    } else {
+                        KI2valid = false;
+                        break;
+                    }
+                }
+
+                foreach (Ship s in tmpShipsKI1) {
+                    if (validatePos(s)) {
+                        KI1valid = true;
+                    } else {
+                        KI1valid = false;
+                        break;
+                    }
                 }
             }
 
@@ -101,8 +141,7 @@ namespace GameManager
 
 
 
-            while (!(ki1won || ki2won))
-            {
+            while (!(ki1won || ki2won)){
 
                 bool hit = false;
                 bool deadly = false;
@@ -114,7 +153,7 @@ namespace GameManager
                     cur.Shoot(out x, out y);
                 }
                 catch (Exception e){
-                    Console.WriteLine(cur.GetName() + " threw Exception and lost the game");
+                    Console.WriteLine(cur.GetName() + " threw Exception and lost the game\n" + e.Message + "\n");
                     return cur == KI1 ? first : second;
                 }
 
