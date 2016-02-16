@@ -15,6 +15,11 @@ namespace TestKI
         public TestKI(int size) : base(size)
         {
             name = "TestKI";
+
+            if (size == -1) {
+                return;
+            }
+
             field = new Boolean[size, size];
 		}
 

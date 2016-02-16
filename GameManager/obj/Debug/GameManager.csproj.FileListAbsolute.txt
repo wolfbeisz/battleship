@@ -1,1 +1,15 @@
 C:\Users\c.hofmann1.KBBZ\Downloads\projectgame-battleship-d123d9531fa6\projectgame-battleship-d123d9531fa6\GameManager\obj\Debug\GameManager.exe
+H:\Battleship\projectgame-battleship-d3d413e2b385\GameManager\obj\Debug\GameManager.exe
+H:\Battleship\projectgame-battleship-d3d413e2b385\GameManager\obj\Debug\GameManager.csprojResolveAssemblyReference.cache
+H:\Battleship\projectgame-battleship-d3d413e2b385\GameManager\bin\Debug\GameManager.exe
+H:\Battleship\projectgame-battleship-d3d413e2b385\GameManager\bin\Debug\GameManager.pdb
+H:\Battleship\projectgame-battleship-d3d413e2b385\GameManager\bin\Debug\BattleSDK.dll
+H:\Battleship\projectgame-battleship-d3d413e2b385\GameManager\bin\Debug\BattleSDK.pdb
+H:\Battleship\projectgame-battleship-d3d413e2b385\GameManager\obj\Debug\GameManager.pdb
+T:\----- hier -----\Battleship\projectgame-battleship-d3d413e2b385\GameManager\obj\Debug\GameManager.exe
+T:\----- hier -----\Battleship\projectgame-battleship-d3d413e2b385\GameManager\obj\Debug\GameManager.pdb
+T:\----- hier -----\Battleship\projectgame-battleship-d3d413e2b385\GameManager\bin\Debug\GameManager.exe
+T:\----- hier -----\Battleship\projectgame-battleship-d3d413e2b385\GameManager\bin\Debug\GameManager.pdb
+T:\----- hier -----\Battleship\projectgame-battleship-d3d413e2b385\GameManager\bin\Debug\BattleSDK.dll
+T:\----- hier -----\Battleship\projectgame-battleship-d3d413e2b385\GameManager\bin\Debug\BattleSDK.pdb
+T:\----- hier -----\Battleship\projectgame-battleship-d3d413e2b385\GameManager\obj\Debug\GameManager.csprojResolveAssemblyReference.cache
