@@ -15,9 +15,7 @@ namespace GameManager
         {
 			Console.WriteLine("Loading KIs...");
 			KIs.LoadKIs();
-
 			Console.WriteLine ("Avaliable KIs:");
-
             Console.ForegroundColor = ConsoleColor.Yellow;
             foreach (Type ki in KIs.AvaliableKIs)
             {
@@ -37,23 +35,20 @@ namespace GameManager
                 return;
             }
             Console.ResetColor();
-
+            string stats = "";
             for (int i = 0; i < KIs.AvaliableKIs.Count(); i++)
             {
                 for (int j = i + 1; j < KIs.AvaliableKIs.Count(); j++)
                 {
-                    match(KIs.AvaliableKIs[i], KIs.AvaliableKIs[j]);
+                    stats += match(KIs.AvaliableKIs[i], KIs.AvaliableKIs[j]);
                 }
             }
-            Console.WriteLine("\n\n\n\n");
             Console.ForegroundColor = ConsoleColor.Green;
-
-            Console.WriteLine("Gesamtstatistik");
-
+            Console.WriteLine("\n\n\n\nGesamtstatistik:\n\n" + stats);
             Console.ReadKey();
         }
 
-        static void match(Type bN0, Type bN1)
+        static string match(Type bN0, Type bN1)
         {
             string bN0N = KIs.NewKi(bN0, -1).GetName();
             string bN1N = KIs.NewKi(bN1, -1).GetName();
@@ -73,9 +68,19 @@ namespace GameManager
                 Console.WriteLine("Game " + ((i + 1) + "/" + numGames).PadRight(9) + " " + Math.Floor((decimal) (i + 1) / (decimal) numGames * 100) + "% gespielt");
                 Console.WriteLine(bN0N + " " + wins0  + "      " + bN1N + " " + wins1);
             }
+
+            string winnerName;
+            if (wins0 == wins1)
+                winnerName = "unentschieden";
+            else if (wins0 > wins1)
+                winnerName = bN0N;
+            else
+                winnerName = bN1N;
+
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\n\n" + bN0N + " " + wins0 + "      " + bN1N + " " + wins1 + "\n\n");
+            Console.WriteLine("\n\n" + bN0N + " " + wins0 + "      " + bN1N + " " + wins1 + " Winner: " + winnerName + "\n\n");
             Console.ResetColor();
+            return "\n" + bN0N.PadRight(15) + " vs " + bN1N.PadRight(15) + "  " + wins0.ToString().PadRight(4) + ":" + wins1.ToString().PadRight(4) + " Winner: " + winnerName + "\n";
         }
     }
 }
