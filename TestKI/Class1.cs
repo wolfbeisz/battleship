@@ -41,19 +41,19 @@ namespace TestKI
 
                 if (ship.Dir == Direction.HORIZONTAL)
                 {
-                    while (!isShipSettedRight(ship))
-                    {
+                    //while (!isShipSettedRight(ship))
+                    //{
                         ship.X = random.Next(0, fieldWidth - ship.Size - 1);
                         ship.Y = random.Next(0, fieldHeight - 1);
-                    }
+                    //}
                 }
                 else
                 {
-                    while (!isShipSettedRight(ship))
-                    {
+                    //while (!isShipSettedRight(ship))
+                    //{
                         ship.X = random.Next(0, fieldWidth - 1);
                         ship.Y = random.Next(0, fieldHeight - ship.Size - 1);
-                    }
+                    //}
                 }
             }
         }
