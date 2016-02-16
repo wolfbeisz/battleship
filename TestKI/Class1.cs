@@ -20,8 +20,12 @@ namespace TestKI
         public TestKI(int size) : base(size)
         {
             name = "TestKI";
-            shootField = new Boolean[size, size];
-            hitField = new Boolean[size, size];
+            if (size != -1)
+            {
+                shootField = new Boolean[size, size];
+                hitField = new Boolean[size, size];
+                shipField = new Boolean[size, size];
+            }            
 		}
 
         public override void SetShips(List<Ship> ships)
