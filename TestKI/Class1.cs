@@ -10,17 +10,45 @@ namespace TestKI
     public class TestKI : BattleshipKI
     {
         private String name;
-        private Boolean[,] field;
+
+        private Boolean[,] shootField;
+        private Boolean[,] hitField;
+        private Boolean[,] shipField;
+        private int fieldWidth;
+        private int fieldHeight;
 
         public TestKI(int size) : base(size)
         {
             name = "TestKI";
-            field = new Boolean[size, size];
+            shootField = new Boolean[size, size];
+            hitField = new Boolean[size, size];
 		}
 
         public override void SetShips(List<Ship> ships)
         {
+            Random random = new Random();
 
+            foreach (Ship ship in ships)
+            {
+                ship.Dir = GetRandomDirection();
+
+                if (ship.Dir == Direction.HORIZONTAL)
+                {
+                    while (!isShipSettedRight(ship))
+                    {
+                        ship.X = random.Next(0, fieldWidth - ship.Size);
+                        ship.Y = random.Next(0, fieldHeight);
+                    }
+                }
+                else
+                {
+                    while (!isShipSettedRight(ship))
+                    {
+                        ship.X = random.Next(0, fieldWidth);
+                        ship.Y = random.Next(0, fieldHeight - ship.Size);
+                    }
+                }
+            }
         }
 
         public override String GetName()
@@ -30,13 +58,55 @@ namespace TestKI
 
         public override void Shoot(out int x, out int y)
         {
-			x = 1;
-			y = 1;
+            Random random = new Random();
+
+            x = random.Next(0, fieldWidth);
+            y = random.Next(0, fieldHeight);
+
+            while(shootField[x,y])
+            {
+                x = random.Next(0, fieldWidth);
+                y = random.Next(0, fieldHeight);
+            }
+
+            shootField[x, y] = true;
         }
 
         public override void Notify(int x, int y, bool hit, bool deadly)
         {
+            hitField[x, y] = hit;
+        }
 
+        private Direction GetRandomDirection()
+        {
+            Random random = new Random();
+
+            if (random.Next(0, 1) == 0)
+                return Direction.HORIZONTAL;
+            else
+                return Direction.VERTICAL;
+        }
+
+        private bool isShipSettedRight(Ship ship)
+        {
+            if (ship.Dir == Direction.HORIZONTAL)
+            {
+                for (int i = 0; i < ship.Size; i++)
+                {
+                    if (!shipField[ship.X + i, ship.Y])
+                        return false;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < ship.Size; i++)
+                {
+                    if (!shipField[ship.X, ship.Y + i])
+                        return false;
+                }
+            }
+
+            return true;
         }
     }
 }
