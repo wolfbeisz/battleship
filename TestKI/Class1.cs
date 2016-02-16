@@ -40,16 +40,16 @@ namespace TestKI
                 {
                     while (!isShipSettedRight(ship))
                     {
-                        ship.X = random.Next(0, fieldWidth - ship.Size);
-                        ship.Y = random.Next(0, fieldHeight);
+                        ship.X = random.Next(0, fieldWidth - ship.Size - 1);
+                        ship.Y = random.Next(0, fieldHeight - 1);
                     }
                 }
                 else
                 {
                     while (!isShipSettedRight(ship))
                     {
-                        ship.X = random.Next(0, fieldWidth);
-                        ship.Y = random.Next(0, fieldHeight - ship.Size);
+                        ship.X = random.Next(0, fieldWidth - 1);
+                        ship.Y = random.Next(0, fieldHeight - ship.Size - 1);
                     }
                 }
             }
@@ -64,13 +64,13 @@ namespace TestKI
         {
             Random random = new Random();
 
-            x = random.Next(0, fieldWidth);
-            y = random.Next(0, fieldHeight);
+            x = random.Next(0, fieldWidth - 1);
+            y = random.Next(0, fieldHeight - 1);
 
             while(shootField[x,y])
             {
-                x = random.Next(0, fieldWidth);
-                y = random.Next(0, fieldHeight);
+                x = random.Next(0, fieldWidth - 1);
+                y = random.Next(0, fieldHeight - 1);
             }
 
             shootField[x, y] = true;
