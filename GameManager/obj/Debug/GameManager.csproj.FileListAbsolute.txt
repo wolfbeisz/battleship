@@ -1,2 +1,4 @@
 C:\Users\c.hofmann1.KBBZ\Downloads\projectgame-battleship-d123d9531fa6\projectgame-battleship-d123d9531fa6\GameManager\obj\Debug\GameManager.exe
 H:\projectgame-battleship-d3d413e2b385\GameManager\obj\Debug\GameManager.exe
+H:\GitRepo\GameManager\obj\Debug\GameManager.exe
+H:\GitRepo\GameManager\obj\Debug\GameManager.pdb
