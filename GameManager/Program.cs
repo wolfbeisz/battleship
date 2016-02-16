@@ -63,7 +63,7 @@ namespace GameManager
             for (int i = 0; i < numGames; i++)
             {
                 Console.ForegroundColor = ConsoleColor.Gray;
-                var winnerKI = playGame(bN0, bN1);
+                var winnerKI = new GameManager().PlayGame(bN0, bN1);
                 Console.ResetColor();
                 if (winnerKI.Equals(bN0))
                     wins0++;
@@ -76,11 +76,6 @@ namespace GameManager
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\n\n" + bN0N + " " + wins0 + "      " + bN1N + " " + wins1 + "\n\n");
             Console.ResetColor();
-        }
-
-        static Type playGame(Type bN0, Type bN1)
-        {
-            return new Random().Next(100) < 50 ? bN0 : bN1;
         }
     }
 }
