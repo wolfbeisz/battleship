@@ -25,7 +25,10 @@ namespace TestKI
                 shootField = new Boolean[size, size];
                 hitField = new Boolean[size, size];
                 shipField = new Boolean[size, size];
-            }            
+            }
+
+            fieldHeight = size;
+            fieldWidth = size;
 		}
 
         public override void SetShips(List<Ship> ships)
