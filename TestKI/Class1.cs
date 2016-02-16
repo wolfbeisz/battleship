@@ -67,12 +67,14 @@ namespace TestKI
             x = random.Next(0, fieldWidth - 1);
             y = random.Next(0, fieldHeight - 1);
 
+            /*
             while(shootField[x,y])
             {
                 x = random.Next(0, fieldWidth - 1);
                 y = random.Next(0, fieldHeight - 1);
             }
-
+            */
+            
             shootField[x, y] = true;
         }
 
