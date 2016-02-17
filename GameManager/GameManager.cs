@@ -154,7 +154,7 @@ namespace GameManager
                 }
                 catch (Exception e){
                     Console.WriteLine(cur.GetName() + " threw Exception and lost the game\n" + e.Message + "\n");
-                    return cur == KI1 ? first : second;
+                    return cur == KI1 ? second : first;
                 }
 
                 if (x < 0 || y < 0 || x > 9 || y > 9)
