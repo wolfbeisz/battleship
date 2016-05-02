@@ -283,7 +283,9 @@ namespace GameManager
                 case Direction.VERTICAL:
                     try
                     {
-                        coords[s.X, s.Y + 1] = true;
+                        for(int i = 0; i < s.Size; i++){
+                            coords[s.X, s.Y + i] = true;
+                        }
                     }
                     catch (IndexOutOfRangeException)
                     {
