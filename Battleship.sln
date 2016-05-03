@@ -1,13 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-VisualStudioVersion = 12.0.30501.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameManager", "GameManager\GameManager.csproj", "{049965BE-55F0-452F-A191-194B0CAAE45C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C7382932-6F82-4EDA-A2C1-1DBBCE9C222C} = {C7382932-6F82-4EDA-A2C1-1DBBCE9C222C}
+		{E3102054-91C9-4EC6-B67D-28A9B0C95C67} = {E3102054-91C9-4EC6-B67D-28A9B0C95C67}
+		{A94399CB-668D-4EF9-BE7B-4E022E2F7888} = {A94399CB-668D-4EF9-BE7B-4E022E2F7888}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleSDK", "BattleSDK\BattleSDK.csproj", "{7EC9D888-9ACD-45A1-A9F8-348D4C7A1A43}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestKI", "TestKI\TestKI.csproj", "{14CF4D04-F5EE-4ED8-92C9-CF51A1D835A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KIMaxi", "KIMaxi\KIMaxi.csproj", "{E3102054-91C9-4EC6-B67D-28A9B0C95C67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Overkill", "Overkill\Overkill.csproj", "{A94399CB-668D-4EF9-BE7B-4E022E2F7888}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "battleship_zyklop_ki", "zyklop_battleship_ki\battleship_zyklop_ki.csproj", "{C7382932-6F82-4EDA-A2C1-1DBBCE9C222C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +30,26 @@ Global
 		{049965BE-55F0-452F-A191-194B0CAAE45C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{049965BE-55F0-452F-A191-194B0CAAE45C}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{049965BE-55F0-452F-A191-194B0CAAE45C}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{14CF4D04-F5EE-4ED8-92C9-CF51A1D835A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{14CF4D04-F5EE-4ED8-92C9-CF51A1D835A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{14CF4D04-F5EE-4ED8-92C9-CF51A1D835A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{14CF4D04-F5EE-4ED8-92C9-CF51A1D835A1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7EC9D888-9ACD-45A1-A9F8-348D4C7A1A43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7EC9D888-9ACD-45A1-A9F8-348D4C7A1A43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EC9D888-9ACD-45A1-A9F8-348D4C7A1A43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EC9D888-9ACD-45A1-A9F8-348D4C7A1A43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14CF4D04-F5EE-4ED8-92C9-CF51A1D835A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14CF4D04-F5EE-4ED8-92C9-CF51A1D835A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14CF4D04-F5EE-4ED8-92C9-CF51A1D835A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14CF4D04-F5EE-4ED8-92C9-CF51A1D835A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3102054-91C9-4EC6-B67D-28A9B0C95C67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3102054-91C9-4EC6-B67D-28A9B0C95C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3102054-91C9-4EC6-B67D-28A9B0C95C67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3102054-91C9-4EC6-B67D-28A9B0C95C67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A94399CB-668D-4EF9-BE7B-4E022E2F7888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A94399CB-668D-4EF9-BE7B-4E022E2F7888}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A94399CB-668D-4EF9-BE7B-4E022E2F7888}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A94399CB-668D-4EF9-BE7B-4E022E2F7888}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7382932-6F82-4EDA-A2C1-1DBBCE9C222C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7382932-6F82-4EDA-A2C1-1DBBCE9C222C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7382932-6F82-4EDA-A2C1-1DBBCE9C222C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7382932-6F82-4EDA-A2C1-1DBBCE9C222C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
