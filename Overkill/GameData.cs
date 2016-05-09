@@ -22,8 +22,10 @@ namespace Overkill{
 	    private Random _random = new Random();
 		private Data[,] _fieldData; //Field that tries to mimic the enemy shield
 	    private List<int> _shipSizes;
+        public int fieldSize;
 
 		public GameData (int size){
+            fieldSize = size;
 			_fieldData = new Data[size, size];
 
 			for(int x = 0; x < size; x++){
@@ -74,7 +76,7 @@ namespace Overkill{
 					if (_fieldData [x, y] == Data.UNKNOWN)
 						points.Add (new Point (){ x = x, y = y });
 				}
-			}
+			}   
 
 			return points;
 		}
@@ -82,27 +84,103 @@ namespace Overkill{
 		private Dictionary<Point, int> PriorizeShots(List<Point> shotsLeft){
 			Dictionary<Point, int> result = new Dictionary<Point, int> ();
 
+            int bonus_not_border = 3;
+            int bonus_next_single_hit = 5;
+            int bonus_next_mult_hit = 8;
+            int bonus_in_larges_ship_area = 4;
+            int bonus_surrounded_by_water = -1;
+
 			foreach(Point shot in shotsLeft){
-				result.Add (shot, 0);
-
-			    //Priorize fields not at border
-				if (shot.x > 0 && shot.x < _fieldData.GetLength (0) - 1)
-					result [shot]++;
-
-				if (shot.y > 0 && shot.y < _fieldData.GetLength (0) - 1)
-					result [shot]++;
-
+				result.Add (shot, 0);          
+                  
 			    //Priorize fields not at right most side
 			    if (shot.x < _fieldData.GetLength(0) - 2)
-			        result[shot]++;
+			        result[shot] += bonus_not_border;
 
                 //Priorize fields not at bottom most
-                //if (shot.y < _fieldData.GetLength(1) - 2)
-                //    result[shot]++;
+                if (shot.y < _fieldData.GetLength(1) - 2)
+                    result[shot] += bonus_not_border;
 
+                //Priorize fields not surrounded by empty shots
+                foreach(int size in _shipSizes) { 
+                    if (!ShipFits(shot.x, shot.y, size))
+                        result[shot] += bonus_surrounded_by_water;
+                }
+
+                //Try to destroy ship when cur is hit
+                //     0 = Single hit
+                //     1 = Horizontal
+                //     2 = Vertical
+                int type = 0;
+			    if (shot.x > 0 && _fieldData[shot.x - 1, shot.y] == Data.HIT)
+			    {
+			        if (type == 1)
+			        {
+			            result[shot] += bonus_next_mult_hit;
+			        }else if (type == 0)
+			        {
+			            if (shot.x > 1 && _fieldData[shot.x - 2, shot.y] == Data.HIT)
+			            {
+			                type = 1;
+			                result[shot] += bonus_next_mult_hit;
+						}
+			            else
+			                result[shot] += bonus_next_single_hit;
+			        }
+			    }
+			    if (shot.x < _fieldData.GetLength(0) - 1 && _fieldData[shot.x + 1, shot.y] == Data.EMPTY)
+				{
+					if (type == 1)
+					{
+						result[shot] += bonus_next_mult_hit;
+					}else if (type == 0)
+					{
+						if (shot.x < _fieldData.GetLength(0) - 2 && _fieldData[shot.x + 2, shot.y] == Data.EMPTY)
+						{
+							type = 1;
+							result[shot] += bonus_next_mult_hit;
+						}
+						else
+							result[shot] += bonus_next_single_hit;
+					}
+				}
+			    if (shot.y > 0 && _fieldData[shot.x, shot.y - 1] == Data.HIT)
+				{
+					if (type == 2)
+					{
+						result[shot] += bonus_next_mult_hit;
+					}else if (type == 0)
+					{
+						if (shot.y > 1 && _fieldData[shot.x, shot.y - 2] == Data.HIT)
+						{
+							type = 2;
+							result[shot] += bonus_next_mult_hit;
+						}
+						else
+							result[shot] += bonus_next_single_hit;
+					}
+				}
+				if (shot.y < _fieldData.GetLength(1) - 1 && _fieldData[shot.x, shot.y + 1] == Data.EMPTY)
+				{
+					if (type == 2)
+					{
+						result[shot] += bonus_next_mult_hit;
+					}else if (type == 0)
+					{
+						if (shot.y < _fieldData.GetLength(1) - 2 && _fieldData[shot.x, shot.y + 2] == Data.EMPTY)
+						{
+							type = 2;
+							result[shot] += bonus_next_mult_hit;
+						}
+						else
+							result[shot] += bonus_next_single_hit;
+					}
+				} 
+                
                 //Priorize fields where the largest ship fits in
 			    if (ShipFits(shot.x, shot.y, _shipSizes.Max()))
-			        result[shot] += 2;
+			        result[shot] += bonus_in_larges_ship_area;
+                    
 			}
 
 			return result;

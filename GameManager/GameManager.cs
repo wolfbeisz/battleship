@@ -5,8 +5,7 @@ using System.Collections.Generic;
 namespace GameManager
 {
     public class GameManager
-    {
-
+    {      
         private int size = 10;
         private int shipAmount = 5;
         private List<Ship> shipsKI1;

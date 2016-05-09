@@ -55,8 +55,7 @@ namespace GameManager
             Console.WriteLine(bN0N + " vs " + bN1N);
             int wins0 = 0;
             int wins1 = 0;
-            for (int i = 0; i < numGames; i++)
-            {
+            for (int i = 0; i < numGames; i++) {
                 Console.ForegroundColor = ConsoleColor.Gray;
                 var winnerKI = new GameManager().PlayGame(bN0, bN1);
                 Console.ResetColor();
@@ -65,6 +64,7 @@ namespace GameManager
                 else
                     wins1++;
 
+                Console.Clear();
                 Console.WriteLine("Game " + ((i + 1) + "/" + numGames).PadRight(9) + " " + Math.Floor((decimal) (i + 1) / (decimal) numGames * 100) + "% gespielt");
                 Console.WriteLine(bN0N + " " + wins0  + "      " + bN1N + " " + wins1);
             }
@@ -80,6 +80,7 @@ namespace GameManager
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\n\n" + bN0N + " " + wins0 + "      " + bN1N + " " + wins1 + " Winner: " + winnerName + "\n\n");
             Console.ResetColor();
+            Console.Clear();
             return "\n" + bN0N.PadRight(15) + " vs " + bN1N.PadRight(15) + "  " + wins0.ToString().PadRight(4) + ":" + wins1.ToString().PadRight(4) + " Winner: " + winnerName + "\n";
         }
     }

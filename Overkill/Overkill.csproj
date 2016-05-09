@@ -13,7 +13,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\BattleShip\GameManager\bin\Debug\Players\</OutputPath>
+    <OutputPath>..\GameManager\bin\Debug\Players\</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -39,4 +39,10 @@
     <Compile Include="GameData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\BattleSDK\BattleSDK.csproj">
+      <Project>{7EC9D888-9ACD-45A1-A9F8-348D4C7A1A43}</Project>
+      <Name>BattleSDK</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
