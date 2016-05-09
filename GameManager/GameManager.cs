@@ -23,8 +23,10 @@ namespace GameManager
 
             //Liste mit Schiffen für die beiden KIs 
             List<Ship> tmpShipsKI1 = createShips();
-            List<Ship> tmpShipsKI2 = new List<Ship>(tmpShipsKI1);
+            List<Ship> tmpShipsKI2 = new List<Ship>();
 
+            for (int i = 0; i < tmpShipsKI1.Count; i++)
+                tmpShipsKI2.Add(tmpShipsKI1[i].Copy());
 
             bool firstToBeChecked = new Random().Next(2) == 0;
 
