@@ -62,46 +62,8 @@ namespace GameManager
             bool KI1valid = false;
             bool KI2valid = false;
 
-            if (firstToBeChecked) {
-
-                foreach (Ship s in tmpShipsKI1) {
-                    if (validatePos(s)) {
-                        KI1valid = true;
-                    } else {
-                        KI1valid = false;
-                        break;
-                    }
-                }
-
-                foreach (Ship s in tmpShipsKI2) {
-                    if (validatePos(s)) {
-                        KI2valid = true;
-                    } else {
-                        KI2valid = false;
-                        break;
-                    }
-                }
-            } else {
-
-                foreach (Ship s in tmpShipsKI2) {
-                    if (validatePos(s)) {
-                        KI2valid = true;
-                    } else {
-                        KI2valid = false;
-                        break;
-                    }
-                }
-
-                foreach (Ship s in tmpShipsKI1) {
-                    if (validatePos(s)) {
-                        KI1valid = true;
-                    } else {
-                        KI1valid = false;
-                        break;
-                    }
-                }
-            }
-
+            KI1valid = shipsAreValid(tmpShipsKI1);
+            KI2valid = shipsAreValid(tmpShipsKI2);
 
             if (!KI1valid && !KI2valid)
             {
@@ -249,6 +211,58 @@ namespace GameManager
 
         }
 
+        private enum SetShipState {
+            WATER,
+            SHIP,
+            GAP
+        }
+
+        private bool shipsAreValid(List<Ship> ships) {
+
+            SetShipState[,] field = new SetShipState[size, size];
+            foreach (Ship ship in ships) {
+                if (!shipIsValid(ref field, ship.X, ship.Y, ship.Size, ship.Dir)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public struct Coord {
+            public int x;
+            public int y;
+
+            public Coord(int coordX, int coordY) {
+                x = coordX;
+                y = coordY;
+            }
+        }
+
+        private bool shipIsValid(ref SetShipState[,] field, int x, int y, int s, Direction d) {
+            Coord dirOff = d == Direction.HORIZONTAL ? new Coord(1, 0) : new Coord(0, 1);
+
+            for (int i = 0; i < s; i++) {
+                if ((x + i) * dirOff.x + (y + i) * dirOff.y > size - 1 || field[x + i * dirOff.x, y + i * dirOff.y] != SetShipState.WATER)
+                    return false;
+            }
+            for (int i = 0; i < s; i++) {
+                field[x, y] = SetShipState.SHIP;
+                foreach (Coord coord in new Coord[] {
+                    new Coord(-1, -1), new Coord(-1, 0), new Coord(-1, 1),
+            new Coord(0, -1),                    new Coord(0, 1),
+            new Coord(1, -1), new Coord(1, 0), new Coord(1, 1)
+        }) {
+                    if (x >= 0 && y >= 0 && x < size && y < size && field[x, y] == SetShipState.WATER) {
+                        field[coord.x + x, coord.y + y] = SetShipState.GAP;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+
+
         private bool checkGameOver(List<Ship> curKIShips)
         {
 
@@ -259,82 +273,6 @@ namespace GameManager
                     return false;
                 }
             }
-            return true;
-        }
-
-        private bool validatePos(Ship s)
-        {
-            bool[,] field = new bool[this.size, this.size];
-
-            bool[,] coords = new bool[this.size, this.size];
-            switch (s.Dir)
-            {
-                case Direction.HORIZONTAL:
-                    try
-                    {
-                        for (int i = 0; i < s.Size; i++)
-                        {
-                            coords[s.X + i, s.Y] = true;
-                        }
-                    }
-                    catch (IndexOutOfRangeException)
-                    {
-                        return false;
-                    }
-                    break;
-                case Direction.VERTICAL:
-                    try
-                    {
-                        for(int i = 0; i < s.Size; i++){
-                            coords[s.X, s.Y + i] = true;
-                        }
-                    }
-                    catch (IndexOutOfRangeException)
-                    {
-                        return false;
-                    }
-                    break;
-            }
-
-            return SetCoordinates(coords, field);
-        }
-
-        private bool SetCoordinates(bool[,] coords, bool[,] field)
-        {
-            for (int x = 0; x < this.size; x++)
-            {
-                for (int y = 0; y < this.size; y++)
-                {
-                    if (!coords[x, y])
-                        continue;
-
-                    if (field[x, y])
-                        return false;
-
-                    if (x > 0 && field[x - 1, y] && !coords[x - 1, y])
-                    {
-                        return false;
-                    }
-
-                    if (x < this.size - 1 && field[x + 1, y] && !coords[x + 1, y])
-                    {
-                        return false;
-                    }
-
-                    if (y > 0 && field[x, y - 1] && !coords[x, y - 1])
-                    {
-                        return false;
-                    }
-
-                    if (y < this.size - 1 && field[x, y + 1] && !coords[x, y + 1])
-                    {
-                        return false;
-                    }
-
-                    field[x, y] = true;
-                }
-            }
-
             return true;
         }
 
