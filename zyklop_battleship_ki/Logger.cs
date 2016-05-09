@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace battleship_zyklop_ki {
     class Logger {
-        public const bool MUTE = true;
+        public const bool MUTE = false;
 
         public static void info(Object s) {
             if (!MUTE) {
@@ -21,14 +21,17 @@ namespace battleship_zyklop_ki {
             for (int i = 0; i < size; i++) {
                 s += "\n";
                 for (int j = 0; j < size; j++) {
-                    s += (shootField[i, j].ToString() + "   ").Substring(0, 5) + " ";
+                    s += shootField[i, j].ToString().PadRight(5) + " ";
                 }
             }
             return s;
         }
 
         public static String printBools(int size, SetShipState[,] shootField) {
-            String s = "";
+            String s = "\n";
+            foreach(int i in KI.shipSizes) {
+                s += i + " ";
+            }
             for (int i = 0; i < size; i++) {
                 s += "\n";
                 for (int j = 0; j < size; j++) {

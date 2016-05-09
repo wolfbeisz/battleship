@@ -59,10 +59,12 @@ namespace GameManager
                 Console.ForegroundColor = ConsoleColor.Gray;
                 var winnerKI = new GameManager().PlayGame(bN0, bN1);
                 Console.ResetColor();
-                if (winnerKI.Equals(bN0))
-                    wins0++;
-                else
-                    wins1++;
+                if (winnerKI != null) {
+                    if (winnerKI.Equals(bN0))
+                        wins0++;
+                    else
+                        wins1++;
+                }
 
                 Console.Clear();
                 Console.WriteLine("Game " + ((i + 1) + "/" + numGames).PadRight(9) + " " + Math.Floor((decimal) (i + 1) / (decimal) numGames * 100) + "% gespielt");
