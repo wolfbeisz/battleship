@@ -84,13 +84,13 @@ namespace Overkill{
 		private Dictionary<Point, int> PriorizeShots(List<Point> shotsLeft){
 			Dictionary<Point, int> result = new Dictionary<Point, int> ();
 
-            int bonus_not_border = 3;
-            int bonus_next_single_hit = 5;
-            int bonus_next_mult_hit = 8;
-            int bonus_in_larges_ship_area = 4;
-            int bonus_surrounded_by_water = -1;
+            int bonus_not_border = BattleSDK.Evolution.cur_genome.bonus_not_border;// 3;
+            int bonus_next_single_hit = BattleSDK.Evolution.cur_genome.bonus_next_single_hit;// 5;
+            int bonus_next_mult_hit = BattleSDK.Evolution.cur_genome.bonus_next_mult_hit;//  8;
+            int bonus_in_larges_ship_area = BattleSDK.Evolution.cur_genome.bonus_in_larges_ship_area;// 8;
+            int bonus_surrounded_by_water = BattleSDK.Evolution.cur_genome.bonus_surrounded_by_water;// -1;
 
-			foreach(Point shot in shotsLeft){
+            foreach (Point shot in shotsLeft){
 				result.Add (shot, 0);          
                   
 			    //Priorize fields not at right most side
@@ -102,8 +102,15 @@ namespace Overkill{
                     result[shot] += bonus_not_border;
 
                 //Priorize fields not surrounded by empty shots
-                foreach(int size in _shipSizes) { 
-                    if (!ShipFits(shot.x, shot.y, size))
+                foreach(int size in _shipSizes) {
+                    bool horX, verX;
+
+                    ShipFits(shot.x, shot.y, size, out horX, out verX);
+
+                    if (horX || verX)
+                        result[shot] += bonus_surrounded_by_water;
+
+                    if(horX && verX)
                         result[shot] += bonus_surrounded_by_water;
                 }
 
@@ -111,83 +118,91 @@ namespace Overkill{
                 //     0 = Single hit
                 //     1 = Horizontal
                 //     2 = Vertical
-                int type = 0;
-			    if (shot.x > 0 && _fieldData[shot.x - 1, shot.y] == Data.HIT)
-			    {
-			        if (type == 1)
+                { 
+                    int type = 0;
+			        if (shot.x > 0 && _fieldData[shot.x - 1, shot.y] == Data.HIT)
 			        {
-			            result[shot] += bonus_next_mult_hit;
-			        }else if (type == 0)
-			        {
-			            if (shot.x > 1 && _fieldData[shot.x - 2, shot.y] == Data.HIT)
+			            if (type == 1)
 			            {
-			                type = 1;
 			                result[shot] += bonus_next_mult_hit;
-						}
-			            else
-			                result[shot] += bonus_next_single_hit;
+			            }else if (type == 0)
+			            {
+			                if (shot.x > 1 && _fieldData[shot.x - 2, shot.y] == Data.HIT)
+			                {
+			                    type = 1;
+			                    result[shot] += bonus_next_mult_hit;
+						    }
+			                else
+			                    result[shot] += bonus_next_single_hit;
+			            }
 			        }
-			    }
-			    if (shot.x < _fieldData.GetLength(0) - 1 && _fieldData[shot.x + 1, shot.y] == Data.EMPTY)
-				{
-					if (type == 1)
-					{
-						result[shot] += bonus_next_mult_hit;
-					}else if (type == 0)
-					{
-						if (shot.x < _fieldData.GetLength(0) - 2 && _fieldData[shot.x + 2, shot.y] == Data.EMPTY)
-						{
-							type = 1;
-							result[shot] += bonus_next_mult_hit;
-						}
-						else
-							result[shot] += bonus_next_single_hit;
-					}
-				}
-			    if (shot.y > 0 && _fieldData[shot.x, shot.y - 1] == Data.HIT)
-				{
-					if (type == 2)
-					{
-						result[shot] += bonus_next_mult_hit;
-					}else if (type == 0)
-					{
-						if (shot.y > 1 && _fieldData[shot.x, shot.y - 2] == Data.HIT)
-						{
-							type = 2;
-							result[shot] += bonus_next_mult_hit;
-						}
-						else
-							result[shot] += bonus_next_single_hit;
-					}
-				}
-				if (shot.y < _fieldData.GetLength(1) - 1 && _fieldData[shot.x, shot.y + 1] == Data.EMPTY)
-				{
-					if (type == 2)
-					{
-						result[shot] += bonus_next_mult_hit;
-					}else if (type == 0)
-					{
-						if (shot.y < _fieldData.GetLength(1) - 2 && _fieldData[shot.x, shot.y + 2] == Data.EMPTY)
-						{
-							type = 2;
-							result[shot] += bonus_next_mult_hit;
-						}
-						else
-							result[shot] += bonus_next_single_hit;
-					}
-				} 
-                
+			        if (shot.x < _fieldData.GetLength(0) - 1 && _fieldData[shot.x + 1, shot.y] == Data.EMPTY)
+				    {
+					    if (type == 1)
+					    {
+						    result[shot] += bonus_next_mult_hit;
+					    }else if (type == 0)
+					    {
+						    if (shot.x < _fieldData.GetLength(0) - 2 && _fieldData[shot.x + 2, shot.y] == Data.EMPTY)
+						    {
+							    type = 1;
+							    result[shot] += bonus_next_mult_hit;
+						    }
+						    else
+							    result[shot] += bonus_next_single_hit;
+					    }
+				    }
+			        if (shot.y > 0 && _fieldData[shot.x, shot.y - 1] == Data.HIT)
+				    {
+					    if (type == 2)
+					    {
+						    result[shot] += bonus_next_mult_hit;
+					    }else if (type == 0)
+					    {
+						    if (shot.y > 1 && _fieldData[shot.x, shot.y - 2] == Data.HIT)
+						    {
+							    type = 2;
+							    result[shot] += bonus_next_mult_hit;
+						    }
+						    else
+							    result[shot] += bonus_next_single_hit;
+					    }
+				    }
+				    if (shot.y < _fieldData.GetLength(1) - 1 && _fieldData[shot.x, shot.y + 1] == Data.EMPTY)
+				    {
+					    if (type == 2)
+					    {
+						    result[shot] += bonus_next_mult_hit;
+					    }else if (type == 0)
+					    {
+						    if (shot.y < _fieldData.GetLength(1) - 2 && _fieldData[shot.x, shot.y + 2] == Data.EMPTY)
+						    {
+							    type = 2;
+							    result[shot] += bonus_next_mult_hit;
+						    }
+						    else
+							    result[shot] += bonus_next_single_hit;
+					    }
+				    }
+                }
+
                 //Priorize fields where the largest ship fits in
-			    if (ShipFits(shot.x, shot.y, _shipSizes.Max()))
+                bool hor, ver;
+                ShipFits(shot.x, shot.y, _shipSizes.Max(), out hor, out ver);
+                if (hor || ver)
 			        result[shot] += bonus_in_larges_ship_area;
-                    
-			}
+                if (hor && ver)
+                    result[shot] += bonus_in_larges_ship_area;
+            }
 
 			return result;
 		}
 
-	    private bool ShipFits(int baseX, int baseY, int size)
+	    private void ShipFits(int baseX, int baseY, int size, out bool hor, out bool ver)
 	    {
+            hor = false;
+            ver = false;
+
 	        int horSize = 0;
 	        int verSize = 0;
 
@@ -199,16 +214,20 @@ namespace Overkill{
 	        {                                           
 	            horSize++;
 
-                if (horSize >= size)
-                    return true;
+                if (horSize >= size) {
+                    hor = true;
+                    break;
+                }
 
 	            if (x == 0)
 	                break;
 
 	            x--;
 
-                if (x < 0)
-                    return horSize >= size;
+                if (x < 0) { 
+                    hor = horSize >= size;
+                    break;
+                }
             }  
                
 			x = baseX;
@@ -218,17 +237,21 @@ namespace Overkill{
 			{                              
 				horSize++;
 
-                if (horSize >= size)
-                    return true;
+                if (horSize >= size) { 
+                    hor = true;
+                    break;
+                }
 
                 if (x == _fieldData.GetLength(0))
 					break;
 
 				x++;
 
-                if (x >= _fieldData.GetLength(0))
-                    return horSize >= size;
-			}
+                if (x >= _fieldData.GetLength(0)) { 
+                    hor =  horSize >= size;
+                    break;
+                }
+            }
 
             x = baseX;
 			y = baseY;
@@ -237,16 +260,20 @@ namespace Overkill{
 			{
 				verSize++;
 
-                if (verSize >= size)
-                    return true;
+                if (verSize >= size) {
+                    ver = true;
+                    break;
+                }
 
                 if (y == 0)
 					break;
 
 				y--;
 
-                if (y < 0)
-                    return verSize >= size;
+                if (y < 0) {
+                    ver = verSize >= size;
+                    break;
+                }
 			}
 	        
 			x = baseX;
@@ -256,19 +283,21 @@ namespace Overkill{
 			{
 				verSize++;
 
-                if (verSize >= size)
-                    return true;
+                if (verSize >= size) {
+                    ver = true;
+                    break;
+                }
 
                 if (y == _fieldData.GetLength(1))
 					break;
 
 				y++;
 
-                if (y >= _fieldData.GetLength(1))
-                    return verSize >= size;
-			}
-
-            return horSize >= size || verSize >= size;                                    
+                if (y >= _fieldData.GetLength(1)) {
+                    ver = verSize >= size;
+                    break;
+                }
+			}                              
 	    }
 
 		public void Notify(int x, int y, bool hit, bool deadly){
