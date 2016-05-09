@@ -84,11 +84,11 @@ namespace Overkill{
 		private Dictionary<Point, int> PriorizeShots(List<Point> shotsLeft){
 			Dictionary<Point, int> result = new Dictionary<Point, int> ();
 
-            int bonus_not_border = BattleSDK.Evolution.cur_genome.bonus_not_border;// 3;
-            int bonus_next_single_hit = BattleSDK.Evolution.cur_genome.bonus_next_single_hit;// 5;
-            int bonus_next_mult_hit = BattleSDK.Evolution.cur_genome.bonus_next_mult_hit;//  8;
-            int bonus_in_larges_ship_area = BattleSDK.Evolution.cur_genome.bonus_in_larges_ship_area;// 8;
-            int bonus_surrounded_by_water = BattleSDK.Evolution.cur_genome.bonus_surrounded_by_water;// -1;
+            int bonus_not_border = 268;// 3;
+            int bonus_next_single_hit = 400;// 5;
+            int bonus_next_mult_hit = 1109;//  8;
+            int bonus_in_larges_ship_area = 225;// 8;
+            int bonus_surrounded_by_water = -30;// -1;
 
             foreach (Point shot in shotsLeft){
 				result.Add (shot, 0);          
@@ -185,6 +185,30 @@ namespace Overkill{
 					    }
 				    }
                 }
+
+                if (shot.x < _fieldData.GetLength(0) - 1 && _fieldData[shot.x + 1, shot.y] == Data.HIT)
+                    result[shot] -= (int)(bonus_not_border * 1.00f);
+
+                if (shot.y < _fieldData.GetLength(1) - 1 && _fieldData[shot.x, shot.y + 1] == Data.HIT)
+                    result[shot] -= (int)(bonus_not_border * 1.00f);
+
+                if (shot.x < _fieldData.GetLength(0) - 2 && _fieldData[shot.x + 2, shot.y] == Data.HIT)
+                    result[shot] -= (int)(bonus_not_border * 0.70f);
+
+                if (shot.y < _fieldData.GetLength(1) - 2 && _fieldData[shot.x, shot.y + 2] == Data.HIT)
+                    result[shot] -= (int)(bonus_not_border * 0.70f);
+
+                if (shot.x < _fieldData.GetLength(0) - 3 && _fieldData[shot.x + 3, shot.y] == Data.HIT)
+                    result[shot] -= (int)(bonus_not_border * 0.40f);
+
+                if (shot.y < _fieldData.GetLength(1) - 3 && _fieldData[shot.x, shot.y + 3] == Data.HIT)
+                    result[shot] -= (int)(bonus_not_border * 0.40f);
+
+                if (shot.x < _fieldData.GetLength(0) - 4 && _fieldData[shot.x + 4, shot.y] == Data.HIT)
+                    result[shot] -= (int)(bonus_not_border * 0.10f);
+
+                if (shot.y < _fieldData.GetLength(1) - 4 && _fieldData[shot.x, shot.y + 4] == Data.HIT)
+                    result[shot] -= (int)(bonus_not_border * 0.10f);
 
                 //Priorize fields where the largest ship fits in
                 bool hor, ver;
