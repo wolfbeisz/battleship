@@ -15,16 +15,18 @@ namespace battleship_zyklop_ki {
             size = fieldSize;
         }
 
+        // quality wird berechnet, je nachdem wie viele Zellen mit Wasser belegt sind
         private int quality() {
-            int q = 1;
+            int quality = 0;
             foreach (SetShipState val in field) {
                 if (val == SetShipState.WATER) {
-                    q++;
+                    quality++;
                 }
             }
-            return q;
+            return quality;
         }
 
+        // Zufällige valide Schiffspositionen
         public Tuple<List<Ship>, int> Ships(List<Ship> ships) {
             Random random = KI.random;
 
@@ -36,30 +38,22 @@ namespace battleship_zyklop_ki {
                     if (!valid) {
                         break;
                     }
-                    int x = 0;
-                    int y = 0;
-                    Direction dir = Direction.HORIZONTAL;
-                    int s = ship.Size;
 
                     valid = false;
                     for (int i = 0; i < 1000; i++) {
-                        x = random.Next(0, size);
-                        y = random.Next(0, size);
-                        dir = random.NextDouble() >= 0.5 ? Direction.HORIZONTAL : Direction.VERTICAL;
+                        ship.Dir = random.NextDouble() >= 0.5 ? Direction.HORIZONTAL : Direction.VERTICAL;
+                        ship.X = random.Next(size);
+                        ship.Y = random.Next(size);
 
-                        if (infield(x, y, s, dir)) {
+                        if (infield(ship.X, ship.Y, ship.Size, ship.Dir)) {
                             valid = true;
                             break;
                         }
                     }
-
-                    ship.X = x;
-                    ship.Y = y;
-                    ship.Dir = dir;
                 }
 
                 if (valid) {
-                    Logger.info(Logger.printBools(size, field));
+                    //Logger.info(Logger.printBools(size, field));
                     return Tuple.Create(ships, quality());
                 }
             }
@@ -79,25 +73,18 @@ namespace battleship_zyklop_ki {
             }
         }
 
+        // Schiff setzen, wenn es auf das Feld passt
         private bool infield(int x, int y, int s, Direction d) {
-            if (d == Direction.HORIZONTAL) {
-                for (int i = 0; i < s; i++) {
-                    if (x + i > size - 1 || field[x + i, y] != SetShipState.WATER)
-                        return false;
-                }
-                for (int i = 0; i < s; i++) {
-                    setShipField(x + i, y);
-                }
+            Coord dirOff = d == Direction.HORIZONTAL ? new Coord(1, 0) : new Coord(0, 1);
+
+            for (int i = 0; i < s; i++) {
+                if ((x + i) * dirOff.x + (y + i) * dirOff.y > size - 1 || field[x + i * dirOff.x, y + i * dirOff.y] != SetShipState.WATER)
+                    return false;
             }
-            else {
-                for (int i = 0; i < s; i++) {
-                    if (y + i > size - 1 || field[x, y + i] != SetShipState.WATER)
-                        return false;
-                }
-                for (int i = 0; i < s; i++) {
-                    setShipField(x, y + 1);
-                }
+            for (int i = 0; i < s; i++) {
+                setShipField(x + i * dirOff.x, y + i * dirOff.y);
             }
+
             return true;
         }
     }

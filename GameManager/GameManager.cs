@@ -67,16 +67,19 @@ namespace GameManager
 
             if (!KI1valid && !KI2valid)
             {
+                Console.WriteLine("Error setting ships of both");
                 return null;
             }
 
             if (KI1valid && !KI2valid)
             {
+                Console.WriteLine("Error setting ships of " + KI2.GetName());
                 return first;
             }
 
             if (!KI1valid && KI2valid)
             {
+                Console.WriteLine("Error setting ships of " + KI1.GetName());
                 return second;
             }
 

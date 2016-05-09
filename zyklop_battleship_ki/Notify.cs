@@ -5,63 +5,99 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace battleship_zyklop_ki {
-    class Notify {
-        private readonly int size;
-        private CellState[,] shootField;
+    partial class KI {
 
-        public Notify(int fieldSize, CellState[,] field) {
-            size = fieldSize;
-            shootField = field;
+        public override void Notify(int x, int y, bool hit, bool deadly) {
+            if (!hit) {
+                NotifyWater(x, y);
+            } else if (!deadly) {
+                NotifyPart(x, y);
+            } else {
+                NotifyDead(x, y);
+            }
+            //closeTooSmall();
+            //Console.WriteLine(Logger.printStates(size, shootField));
         }
 
-        public CellState[,] notify(int x, int y, bool hit, bool deadly) {
-            if (!hit) // -> WATER
-            {
-                shootField[x, y] = CellState.WATER;
-            }
-            else if (!deadly) // -> PART
-            {
-                shootField[x, y] = CellState.PART;
+        private void NotifyWater (int x, int y) {
+            shootField[x, y] = CellState.WATER;
+        }
 
-                foreach (Coord coord in CoordOffset.edges(x, y)) {
-                    setCellToWater(x, y);
-                }
+        private void NotifyPart (int x, int y) {
+            shootField[x, y] = CellState.PART;
+            // Die Ecken um das Feld herum werden auf Wasser gesetzt
+            foreach (Coord coord in CoordOffset.edges(x, y)) {
+                setCellToWater(x, y);
             }
-            else // -> DEAD
-            {
-                setCellToDead(x, y);
+        }
 
-                foreach (Coord coord in CoordOffset.plusTemplate) {
-                    for (int i = 1; i < size; i++) {
-                        int tmpX = x + i * coord.x;
-                        int tmpY = y + i * coord.y;
-                        if (tmpX >= 0 && tmpY >= 0 && tmpX < size && tmpY < size && shootField[tmpX, tmpY] == CellState.PART) {
-                            //Console.WriteLine(tmpX + " " + tmpY);
-                            setCellToDead(tmpX, tmpY);
-                        }
-                        else break;
+        private void NotifyDead (int x, int y) {
+            setCellToDead(x, y);
+            int shipSize = 1;
+            foreach (Coord coord in CoordOffset.plusTemplate) {
+                for (int i = 1; i < size; i++) {
+                    int tmpX = x + i * coord.x;
+                    int tmpY = y + i * coord.y;
+                    if (inRange(tmpX, tmpY) && shootField[tmpX, tmpY] == CellState.PART) {
+                        setCellToDead(tmpX, tmpY);
+                        shipSize++;
+                    } else {
+                        break;
                     }
                 }
             }
-            closeTooSmall();
-            Logger.info(Logger.printStates(size, shootField));
-            return shootField;
+
+            if (shipSize < 2) {
+                return;
+            }
+            
+            //bool e = shipSizes.Remove(shipSize);
+            /*if (!e) {
+                Logger.info("No Ship with size " + shipSize);
+                Console.WriteLine(x + " " + y + ":");
+                Console.WriteLine(Logger.printStates(size, shootField));
+            }*/
+            //shipSizes.Sort();
         }
 
+        // Alle Felder auf die das kleinste Schiff nicht mehr passt werden auf Wasser gesetzt
         private void closeTooSmall() {
+            //Console.Write(" " + smallestShip() + " ");
+            int smallest = 1; // smallestShip();
             bool changes = true;
             while (changes) {
                 changes = false;
                 for (var i = 0; i < size; i++) {
                     for (var j = 0; j < size; j++) {
                         if (shootField[i, j] == CellState.NO) {
-                            int count = 0;
-                            foreach (Coord coord in CoordOffset.plus(i, j)) {
-                                if (cellDontExistsOrIsFinel(coord.x, coord.y))
-                                    count++;
+                            bool smallEnouth = true;
+                            Coord[] dirs = new Coord[] { new Coord(1, 0), new Coord(0, 1) };
+                            foreach (Coord dir in dirs) {
+                                if (!smallEnouth)
+                                    break;
+                                int space = 1;
+                                foreach (int pos in new int[] { -1, 1 }) {
+                                    for (int k = 1; k < size + 2; k++) {
+                                        int tmpX = i + dir.x * pos * k;
+                                        int tmpY = j + dir.y * pos * k;
+                                        if (inRange(tmpX, tmpY) && shootField[tmpX, tmpY] != CellState.WATER) {
+                                            space++;
+                                        } else {
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (space >= smallest) {
+                                    smallEnouth = false;
+                                }
                             }
-                            if (count == 4) {
-                                shootField[i, j] = CellState.WATER;
+                            if (smallEnouth) {
+                                //Console.WriteLine(Logger.printStates(size, shootField));
+                                //Console.WriteLine("water " + i + " " +  j);
+                                setCellToWater(i, j);
+                                //Console.WriteLine(Logger.printStates(size, shootField));
+                                //Console.WriteLine("-----------------------------------");
+                                changes = true;
                             }
                         }
                     }
@@ -69,8 +105,9 @@ namespace battleship_zyklop_ki {
             }
         }
 
+        // Kann sich der Zustand nicht mehr ändern (Wasser, Getroffen)
         private bool cellDontExistsOrIsFinel(int x, int y) {
-            if (!(x >= 0 && y >= 0 && x < size && y < size))
+            if (!inRange(x, y))
                 return true;
             return (shootField[x, y] == CellState.DEAD || shootField[x, y] == CellState.WATER);
         }
@@ -83,9 +120,21 @@ namespace battleship_zyklop_ki {
         }
 
         private void setCellToWater(int x, int y) {
-            if ((x >= 0 && y >= 0 && x < size && y < size && shootField[x, y] == CellState.NO)) {
+            if ((inRange(x, y) && shootField[x, y] == CellState.NO)) {
                 shootField[x, y] = CellState.WATER;
             }
+        }
+
+        private int smallestShip() {
+            return shipSizes.First();
+        }
+
+        private int biggestShip() {
+            return shipSizes.Last();
+        }
+
+        private bool inRange(int x, int y) {
+            return x >= 0 && y >= 0 && x < size && y < size;
         }
     }
 }

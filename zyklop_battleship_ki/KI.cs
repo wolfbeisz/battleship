@@ -16,10 +16,11 @@ using System.Diagnostics;
 */
 
 namespace battleship_zyklop_ki {
-    class KI : BattleshipKI {
+    partial class KI : BattleshipKI {
         private CellState[,] shootField;
         private readonly int size;
         public static Random random;
+        public static List<int> shipSizes;
 
         public KI(int fieldSize) : base(fieldSize) {
             if (fieldSize < 1)
@@ -31,12 +32,15 @@ namespace battleship_zyklop_ki {
         }
 
         public override void SetShips(List<Ship> ships) {
+            shipSizes = ships.Select(ship => ship.Size).ToList();
+            shipSizes.Sort();
+
             SetShips s = new SetShips(size);
-            int quality = 0;
-            for (var i = 0; i < 40; i++) {
+            int quality = -1;
+            // Es werde die Schiffspositionen genommen die, die beste quality haben
+            for (var i = 0; i < 1; i++) {
                 Tuple<List<Ship>, int> poss = s.Ships(new List<Ship>(ships));
                 if (poss.Item2 > quality) {
-                    Logger.info(poss.Item2);
                     quality = poss.Item2;
                     ships = poss.Item1;
                 }
@@ -51,10 +55,6 @@ namespace battleship_zyklop_ki {
             Coord coord = new Shoot(size, shootField).shoot();
             x = coord.x;
             y = coord.y;
-        }
-
-        public override void Notify(int x, int y, bool hit, bool deadly) {
-            shootField = new Notify(size, shootField).notify(x, y, hit, deadly);
         }
     }
 }
