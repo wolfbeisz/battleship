@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Comment CommentText="KI 1">
+    <Position X="3.521" Y="8.146" Height="0.75" Width="0.96" />
+  </Comment>
+  <Comment CommentText="KI 2">
+    <Position X="4.677" Y="8.146" Height="0.75" Width="0.96" />
+  </Comment>
+  <Comment CommentText="Um eine neue KI zu erstellen muss ein neues Projekt (Klassenbibliothek) erstellt werden.&#xD;&#xA;Dort muss von BattleshipKI geerbt werden.&#xD;&#xA;Die Methode GetName muss den Namen der KI zurückgeben.&#xD;&#xA;In SetShips steht in den Schiffen die Größe und es muss x, y, und die Richtung so gesetzt werden das alle Schiffe auf dem Feld sind ohne das sie sich überschneiden. Zwischen allen Schiffen ist ein Feld abstand und die Mindestlänge beträgt zwei.&#xD;&#xA;Shoot wird aufgerufen wenn man an der Reihe mit Schießen ist und Notify teilt mit ob Wasser oder ein Schiff getroffen oder versenkt wurde.&#xD;&#xA;Um zu Spielen muss die .dll der Ki zusammen mit BattleSDK.dll in GameManager/bin/Debug/Players gelegt werden.&#xD;&#xA;GameManager.exe läd dann die KIs aus ./Players.">
+    <Position X="6.396" Y="0.5" Height="2.427" Width="3.69" />
+  </Comment>
+  <Class Name="GameManager.GameManager">
+    <Position X="1.5" Y="2.5" Width="3.25" />
+    <Members>
+      <Method Name="shipIsValid" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Enum Name="GameManager.GameManager.SetShipState" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>GameManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Struct Name="GameManager.GameManager.Coord" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>GameManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>BAgAAAAAAAQAAAARAIAAAAAAABAAAEAAQAAAAAAAQAA=</HashCode>
+      <FileName>GameManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameManager.KIs">
+    <Position X="5" Y="3.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAEAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>KIs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameManager.Program">
+    <Position X="3" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAABAAAAAI=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BattleSDK.BattleshipKI">
+    <Position X="2.75" Y="6" Width="3.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="BattleSDK.Ship">
+    <Position X="0.75" Y="6.25" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
