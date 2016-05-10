@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace battleship_zyklop_ki {
     class Logger {
-        public const bool MUTE = false;
+        public const bool MUTE = true;
 
         public static void info(Object s) {
             if (!MUTE) {
