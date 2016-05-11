@@ -13,10 +13,11 @@ namespace battleship_zyklop_ki {
             } else if (!deadly) {
                 NotifyPart(x, y);
             } else {
+                NotifyPart(x, y);
                 NotifyDead(x, y);
             }
-            //closeTooSmall();
-            //Console.WriteLine(Logger.printStates(size, shootField));
+            closeTooSmall();
+            Logger.info(Logger.printStates(size, shootField));
         }
 
         private void NotifyWater (int x, int y) {
@@ -47,23 +48,18 @@ namespace battleship_zyklop_ki {
                 }
             }
 
-            if (shipSize < 2) {
-                return;
-            }
-            
             //bool e = shipSizes.Remove(shipSize);
             /*if (!e) {
                 Logger.info("No Ship with size " + shipSize);
                 Console.WriteLine(x + " " + y + ":");
                 Console.WriteLine(Logger.printStates(size, shootField));
             }*/
-            //shipSizes.Sort();
+            shipSizes.Sort();
         }
 
         // Alle Felder auf die das kleinste Schiff nicht mehr passt werden auf Wasser gesetzt
         private void closeTooSmall() {
-            //Console.Write(" " + smallestShip() + " ");
-            int smallest = 1; // smallestShip();
+            int smallest = smallestShip();
             bool changes = true;
             while (changes) {
                 changes = false;
@@ -71,8 +67,7 @@ namespace battleship_zyklop_ki {
                     for (var j = 0; j < size; j++) {
                         if (shootField[i, j] == CellState.NO) {
                             bool smallEnouth = true;
-                            Coord[] dirs = new Coord[] { new Coord(1, 0), new Coord(0, 1) };
-                            foreach (Coord dir in dirs) {
+                            foreach (Coord dir in CoordOffset.directions) {
                                 if (!smallEnouth)
                                     break;
                                 int space = 1;
@@ -115,7 +110,7 @@ namespace battleship_zyklop_ki {
         private void setCellToDead(int x, int y) {
             shootField[x, y] = CellState.DEAD;
             foreach (Coord coord in CoordOffset.around(x, y)) {
-                setCellToWater(coord.x, coord.y);
+                //setCellToWater(coord.x, coord.y);
             }
         }
 

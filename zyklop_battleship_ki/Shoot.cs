@@ -40,7 +40,7 @@ namespace battleship_zyklop_ki {
             if (maxVal == 0) {
                 string msg = "Kein Feld mehr offen";
                 Debug.WriteLine(msg);
-                Console.WriteLine(msg);
+                //Console.WriteLine(msg);
             }
             List<Coord> coords = new List<Coord>();
             for (var i = 0; i < size; i++) {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿// #define LOG
+using System;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,9 +67,26 @@ namespace Overkill{
 	            x = p.x;
 	            y = p.y;
 	        }
-		}
 
-		private List<Point> GetShotsLeft(){
+            printStates();
+    }
+
+            
+        public void printStates() {
+#if LOG
+            String s = "";
+            for (int i = 0; i < _fieldData.GetLength(0); i++) {
+                s += "\n";
+                for (int j = 0; j < _fieldData.GetLength(1); j++) {
+                    s += _fieldData[i, j].ToString().PadRight(5).Substring(0, 5) + " ";
+                }
+                Console.WriteLine(s);
+                s = "";
+            }
+#endif
+        }
+
+        private List<Point> GetShotsLeft(){
 			List<Point> points = new List<Point> ();
 
 			for(int x = 0; x < _fieldData.GetLength (0); x++){

@@ -1,6 +1,10 @@
 ﻿namespace battleship_zyklop_ki {
     // Helper um Felder um ein Feld herum auszurechnen
     class CoordOffset {
+        public static readonly Coord[] directions = {
+            new Coord(1, 0), new Coord(0, 1)
+        };
+
         public static readonly Coord[] aroundTemplate = {
             new Coord(-1, -1), new Coord(-1,  0), new Coord(-1,  1),
             new Coord( 0, -1),                    new Coord( 0,  1),
