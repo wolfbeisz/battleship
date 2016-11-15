@@ -9,7 +9,7 @@ namespace GameManager
 {
     class Program
     {
-        private static int numGames = 100;
+        private static int numGames = 1000;
 
         static void Main(string[] args)
         {

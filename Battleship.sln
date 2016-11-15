@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameManager", "GameManager\GameManager.csproj", "{049965BE-55F0-452F-A191-194B0CAAE45C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C7382932-6F82-4EDA-A2C1-1DBBCE9C222C} = {C7382932-6F82-4EDA-A2C1-1DBBCE9C222C}
@@ -19,6 +17,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Overkill", "Overkill\Overkill.csproj", "{A94399CB-668D-4EF9-BE7B-4E022E2F7888}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "battleship_zyklop_ki", "zyklop_battleship_ki\battleship_zyklop_ki.csproj", "{C7382932-6F82-4EDA-A2C1-1DBBCE9C222C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "KIs", "KIs", "{866828BF-2502-4FD4-9A3A-AC172C83B22B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,5 +53,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C7382932-6F82-4EDA-A2C1-1DBBCE9C222C} = {866828BF-2502-4FD4-9A3A-AC172C83B22B}
+		{E3102054-91C9-4EC6-B67D-28A9B0C95C67} = {866828BF-2502-4FD4-9A3A-AC172C83B22B}
+		{A94399CB-668D-4EF9-BE7B-4E022E2F7888} = {866828BF-2502-4FD4-9A3A-AC172C83B22B}
+		{14CF4D04-F5EE-4ED8-92C9-CF51A1D835A1} = {866828BF-2502-4FD4-9A3A-AC172C83B22B}
 	EndGlobalSection
 EndGlobal
