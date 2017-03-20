@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameManager", "GameManager\GameManager.csproj", "{049965BE-55F0-452F-A191-194B0CAAE45C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C7382932-6F82-4EDA-A2C1-1DBBCE9C222C} = {C7382932-6F82-4EDA-A2C1-1DBBCE9C222C}
@@ -19,6 +21,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "battleship_zyklop_ki", "zyklop_battleship_ki\battleship_zyklop_ki.csproj", "{C7382932-6F82-4EDA-A2C1-1DBBCE9C222C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "KIs", "KIs", "{866828BF-2502-4FD4-9A3A-AC172C83B22B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonsterKi", "MonsterKi\MonsterKi.csproj", "{605BAA28-7CA9-4D20-A8ED-17B468647CC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMonsterKi", "TestMonsterKi\TestMonsterKi.csproj", "{053B6831-2146-4817-85F7-F6FD22C7289E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,14 +56,23 @@ Global
 		{C7382932-6F82-4EDA-A2C1-1DBBCE9C222C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7382932-6F82-4EDA-A2C1-1DBBCE9C222C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7382932-6F82-4EDA-A2C1-1DBBCE9C222C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{605BAA28-7CA9-4D20-A8ED-17B468647CC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{605BAA28-7CA9-4D20-A8ED-17B468647CC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{605BAA28-7CA9-4D20-A8ED-17B468647CC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{605BAA28-7CA9-4D20-A8ED-17B468647CC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{053B6831-2146-4817-85F7-F6FD22C7289E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{053B6831-2146-4817-85F7-F6FD22C7289E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{053B6831-2146-4817-85F7-F6FD22C7289E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{053B6831-2146-4817-85F7-F6FD22C7289E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C7382932-6F82-4EDA-A2C1-1DBBCE9C222C} = {866828BF-2502-4FD4-9A3A-AC172C83B22B}
 		{E3102054-91C9-4EC6-B67D-28A9B0C95C67} = {866828BF-2502-4FD4-9A3A-AC172C83B22B}
 		{A94399CB-668D-4EF9-BE7B-4E022E2F7888} = {866828BF-2502-4FD4-9A3A-AC172C83B22B}
+		{C7382932-6F82-4EDA-A2C1-1DBBCE9C222C} = {866828BF-2502-4FD4-9A3A-AC172C83B22B}
 		{14CF4D04-F5EE-4ED8-92C9-CF51A1D835A1} = {866828BF-2502-4FD4-9A3A-AC172C83B22B}
+		{605BAA28-7CA9-4D20-A8ED-17B468647CC9} = {866828BF-2502-4FD4-9A3A-AC172C83B22B}
 	EndGlobalSection
 EndGlobal
