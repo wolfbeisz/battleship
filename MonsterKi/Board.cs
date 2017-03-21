@@ -17,5 +17,10 @@ namespace MonsterKi
             State = state;
             Ships = ships;
         }
+
+        public void SetField(int row, int column, int value)
+        {
+            State[row][column] = value;
+        }
     }
 }

@@ -82,7 +82,30 @@ namespace MonsterKi
             }
             throw new Exception("");
         }
+
+        public static void SetFields(int[][] board, int[][] testArray, int rowOffset, int colOffset, FieldModifier match) // TODO: pass functions to operate on the cell
+        {
+            for (int rowIndex = 0; rowIndex < testArray.Count(); rowIndex++)
+            {
+                for (int colIndex = 0; colIndex < testArray[rowIndex].Count(); colIndex++)
+                {
+                    int expectedValue = testArray[rowIndex][colIndex];
+
+                    int boardRow = rowOffset + rowIndex;
+                    int boardCol = colOffset + colIndex;
+                    if (ExistsField(board, boardRow, boardCol))
+                    {
+                        int val = board[boardRow][boardCol];
+                        if (expectedValue == val)
+                        {
+                            match(board, boardRow, boardCol);
+                        }
+                    }
+                }
+            }
+        }
     }
 
+    public delegate void FieldModifier(int[][] state, int row, int column);
 
 }
