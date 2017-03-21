@@ -33,7 +33,7 @@ namespace MonsterKi
             return true;
         }
 
-        private static bool ExistsField(int[][] board, int rowIndex, int colIndex)
+        public static bool ExistsField(int[][] board, int rowIndex, int colIndex)
         {
             if (rowIndex >= 0 && rowIndex < board.Count())
             {
