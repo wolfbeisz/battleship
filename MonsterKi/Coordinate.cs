@@ -8,8 +8,8 @@ namespace MonsterKi
 {
     public class Coordinate : IEqualityComparer<Coordinate>
     {
-        public int Row { public get; private set; }
-        public int Col { public get; private set; }
+        public int Row { get; private set; }
+        public int Col { get; private set; }
 
         public Coordinate(int row, int col)
         {
@@ -27,7 +27,7 @@ namespace MonsterKi
             return x.Row == y.Row && x.Col == y.Col;
         }
 
-        public int GetHashCode(SimpleShip obj)
+        public int GetHashCode(Coordinate obj)
         {
             int hash = 13 * Row;
             hash = 13 * hash + Col;
