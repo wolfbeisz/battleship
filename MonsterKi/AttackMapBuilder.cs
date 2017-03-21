@@ -37,51 +37,64 @@ namespace MonsterKi
         
         }
 
+        // for all fields:
+        // if the current field is a hit => check the surrounding cells 
+        // if the cell exists, then check whether the cells belong to a ship (in detected)
+        // if it belongs to a ship, then update the ship (add the current field)
+        // if it does not belong to a ship, then create a new ship
         public static IList<SimpleShip> DetectShips(int[][] state)
         {
             List<SimpleShip> detected = new List<SimpleShip>();
-            
 
             for (int rowIndex = 0; rowIndex < state.Count(); rowIndex++)
             {
                 for (int colIndex = 0; colIndex < state.Count(); colIndex++)
                 {
+                    Coordinate currentCoordinate = new Coordinate(rowIndex, colIndex);
                     int currentValue = state[rowIndex][colIndex];
 
                     if (currentValue == (int)Field.HIT ||
                         currentValue == (int)Field.DEADLY_HIT)
                     {
-                        var neighbours = findNeighbours(state, rowIndex, colIndex);
+                        IList<Coordinate> neighbours = findNeighbours(state, rowIndex, colIndex);
+                        bool match = false;
 
                         foreach (Coordinate neighbour in neighbours)
                         {
-                            var ships = detected.Where(ship => ship.Cells.Contains(new Coordinate(rowIndex, colIndex))).ToList();
+                            var ships = detected.Where(ship => ship.Cells.Contains(neighbour)).ToList();
                             
-                            if (ships.Count() == 0)
+                            if (ships.Count() == 1)
                             {
-                                List<Coordinate> coordinates = new List<Coordinate>();
-                                coordinates.Add(neighbour);
-                                ships.Add(new SimpleShip(coordinates, currentValue == (int)Field.DEADLY_HIT));
-                            }
-                            else if (ships.Count() == 1) 
-                            {
-
-                            } else {
+                                SimpleShip current = ships.Single();
+                                if (currentValue == (int)Field.DEADLY_HIT)
+                                {
+                                    detected.Remove(current);
+                                    var coordinates = new List<Coordinate>(current.Cells);
+                                    coordinates.Add(currentCoordinate);
+                                    detected.Add(new SimpleShip(coordinates, currentValue == (int)Field.DEADLY_HIT));
+                                }
+                                else {
+                                    current.Cells.Add(currentCoordinate);
+                                }
+                                match = true;
+                                break;
+                            } else if (ships.Count > 1) {
                                 throw new Exception();
                             }
                         }
-                        
+
+                        if (!match)
+                        {
+                            detected.Add(new SimpleShip(new List<Coordinate>(new Coordinate[]{ currentCoordinate }), currentValue == (int)Field.DEADLY_HIT));
+                        }
                     }
-                    // if the current value is a hit => check the surrounding cells 
-                    // if the cell exists, then check whether the cells belong to a ship (in detected)
-                    // if it does not belong to a ship, then create a new ship
                 }
             }
 
             return detected;
         }
 
-        private static IEnumerable<Coordinate> findNeighbours(int[][] state, int row, int col)
+        private static IList<Coordinate> findNeighbours(int[][] state, int row, int col)
         {
             IList<Coordinate> coordinates = new List<Coordinate>();
             

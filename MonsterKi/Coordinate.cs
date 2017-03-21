@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MonsterKi
 {
-    public class Coordinate : IEqualityComparer<Coordinate>
+    public class Coordinate
     {
         public int Row { get; private set; }
         public int Col { get; private set; }
@@ -17,17 +17,17 @@ namespace MonsterKi
             Col = col;
         }
 
-
-        public bool Equals(Coordinate x, Coordinate y)
+        public override bool Equals(object obj)
         {
-            if (x == null && y == null)
-                return true;
-            else if (x == null || y == null)
-                return false;
-            return x.Row == y.Row && x.Col == y.Col;
+            if (obj != null && obj is Coordinate)
+            {
+                Coordinate other = (Coordinate)obj;
+                return Row == other.Row && Col == other.Col;
+            }
+            return false;
         }
 
-        public int GetHashCode(Coordinate obj)
+        public override int GetHashCode()
         {
             int hash = 13 * Row;
             hash = 13 * hash + Col;
