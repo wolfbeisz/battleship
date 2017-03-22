@@ -34,7 +34,8 @@ namespace MonsterKi
                         {
                             foreach (var coordinate in findNeighbours(state, rowIndex, colIndex))
                             {
-                                targets.Add(coordinate);
+                                if (isValidTarget(state, coordinate))
+                                    targets.Add(coordinate);
                             }
                         }
                         else
@@ -47,7 +48,26 @@ namespace MonsterKi
                     }
                 }
             }
+
             return targets;
+        }
+
+        public static Coordinate RandomCoordinate(int[][] state, Random random)
+        {
+            IList<int> rows = new List<int>(Enumerable.Range(0, state.Length));
+            rows = rows.OrderBy(e => random.Next()).ToList();
+
+            foreach (int row in rows)
+            {
+                IList<int> columns = new List<int>(Enumerable.Range(0, state.Length));
+                columns = columns.OrderBy(e => random.Next()).ToList();
+                foreach (int colIndex in columns)
+                {
+                    if (state[row][colIndex] == (int)Field.UNKNOWN)
+                        return new Coordinate(row, colIndex);
+                }
+            }
+            return null;
         }
 
         private static void AddTargetForShip(int[][] state, IList<Coordinate> targets, Coordinate currentCoordinate, SimpleShip ship)
@@ -61,12 +81,12 @@ namespace MonsterKi
                 {
                     if (currentCoordinate.Equals(first))
                     {
-                        if (BoardUtil.ExistsField(state, Left(currentCoordinate)))
+                        if (isValidTarget(state, Left(currentCoordinate)))
                             targets.Add(Left(currentCoordinate));
                     }
                     else if (currentCoordinate.Equals(last))
                     {
-                        if (BoardUtil.ExistsField(state, Right(currentCoordinate)))
+                        if (isValidTarget(state, Right(currentCoordinate)))
                             targets.Add(Right(currentCoordinate));
                     }
                 }
@@ -74,21 +94,21 @@ namespace MonsterKi
                 {
                     if (currentCoordinate.Equals(first))
                     {
-                        if (BoardUtil.ExistsField(state, Upper(currentCoordinate)))
+                        if (isValidTarget(state, Upper(currentCoordinate)))
                             targets.Add(Upper(currentCoordinate));
                     }
                     else if (currentCoordinate.Equals(last))
                     {
-                        if (BoardUtil.ExistsField(state, Lower(currentCoordinate)))
+                        if (isValidTarget(state, Lower(currentCoordinate)))
                             targets.Add(Lower(currentCoordinate));
                     }
                 }
             }
         }
 
-        public static void ApplyField(int[][] state, int row, int column) 
-        { 
-        
+        private static bool isValidTarget(int[][] state, Coordinate coordinate)
+        {
+            return BoardUtil.ExistsField(state, coordinate) && state[coordinate.Row][coordinate.Col] == (int)Field.UNKNOWN;
         }
 
         // for all fields:

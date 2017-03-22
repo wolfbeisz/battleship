@@ -8,6 +8,7 @@ namespace MonsterKi
 {
     public enum Field : int
     {
+        UNKNOWN = -1,
         WATER = 0,
         SHIP = 1,
         HIT = 2,
