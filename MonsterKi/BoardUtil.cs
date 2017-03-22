@@ -46,6 +46,11 @@ namespace MonsterKi
             return false;
         }
 
+        public static bool ExistsField(int[][] board, Coordinate coordinate) 
+        {
+            return ExistsField(board, coordinate.Row, coordinate.Col);
+        }
+
         // TODO: allow touching ships
         public static int[][] BuildShipTemplate(int size, Direction direction, int startCol, int startRow, int shipFieldValue)
         {
