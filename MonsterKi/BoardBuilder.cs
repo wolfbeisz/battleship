@@ -24,16 +24,32 @@ namespace MonsterKi
                 state[rowIndex] = new int[size];
             }
 
-            foreach (Ship ship in ships)
+            IList<Ship> shipsSorted = new List<Ship>(ships.OrderBy(s => s.Size, Comparer<int>.Create((a, b) => b - a)));
+
+            foreach (Ship ship in shipsSorted)
             {
                 Direction dir = RandomDirection(random);
-                if (dir == Direction.HORIZONTAL)
+                try
                 {
-                    setShipHorizontal(random, ship, state);
+                    if (dir == Direction.HORIZONTAL)
+                    {
+                        setShipHorizontal(random, ship, state);
+                    }
+                    else
+                    {
+                        setShipVertical(random, ship, state);
+                    }
                 }
-                else
+                catch (Exception e) // if an error occurs: try the other direction
                 {
-                    setShipVertical(random, ship, state);
+                    if (dir == Direction.HORIZONTAL)
+                    {
+                        setShipVertical(random, ship, state);
+                    }
+                    else
+                    {
+                        setShipHorizontal(random, ship, state);
+                    }
                 }
             }
 
@@ -43,7 +59,7 @@ namespace MonsterKi
         private static void setShipVertical(Random random, Ship ship, int[][] state)
         {
             IList<int> columns = new List<int>(Enumerable.Range(0, state.Length));
-            columns = columns.OrderBy(e => random.Next()).ToList();
+            //columns = columns.OrderBy(e => random.Next()).ToList();
 
             foreach (int column in columns)
             {
@@ -133,7 +149,7 @@ namespace MonsterKi
         private static void setShipHorizontal(Random random, Ship ship, int[][] state)
         {
             IList<int> rows = new List<int>(Enumerable.Range(0, state.Length));
-            rows = rows.OrderBy(e => random.Next()).ToList();
+            //rows = rows.OrderBy(e => random.Next()).ToList();
 
             foreach (int row in rows)
             {
