@@ -21,6 +21,11 @@ namespace MonsterKi
                     {
                         int boardRow = rowOffset + rowIndex;
                         int boardCol = colOffset + colIndex;
+
+                        if (boardRow < -1 || boardCol < -1 ||
+                            boardRow > board.Length || boardCol > board.Length)
+                            return false;
+
                         if (ExistsField(board, boardRow, boardCol))
                         {
                             int val = board[boardRow][boardCol];
