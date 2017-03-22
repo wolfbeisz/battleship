@@ -35,5 +35,14 @@ namespace TestMonsterKi
             Board b = BoardBuilder.BuildRandomBoard(r, ships, 10);
             ;
         }
+
+        [TestMethod]
+        public void TestPlaceSeveralShipsRandomly()
+        {
+            Random r = new Random();
+            IList<Ship> ships = new List<Ship>(new Ship[] { new Ship(6), new Ship(6), new Ship(7), new Ship(5), new Ship(2) });
+            Board b = BoardBuilder.BuildRandomBoard(r, ships, 10);
+            ;
+        }
     }
 }

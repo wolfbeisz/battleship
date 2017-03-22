@@ -153,8 +153,8 @@ namespace MonsterKi
                         {
                             state[startY][targetCol] = 1;
                         }
-                        ship.X = row;
-                        ship.Y = colIndex;
+                        ship.X = colIndex;
+                        ship.Y = row;
                         ship.Dir = Direction.HORIZONTAL;
                         return;
                     }
@@ -166,7 +166,7 @@ namespace MonsterKi
 
         private static Direction RandomDirection(Random random)
         {
-            if (random.Next(0, 1) == 0)
+            if (random.Next(0, 2) == 0)
                 return Direction.HORIZONTAL;
             else
                 return Direction.VERTICAL;
