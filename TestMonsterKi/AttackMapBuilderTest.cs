@@ -45,7 +45,8 @@ namespace TestMonsterKi
             state[7] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             state[8] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             state[9] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-
+            IList<Coordinate> coords = AttackMapBuilder.Build(state);
+            Assert.AreEqual(2, coords.Count);
         }
     }
 }

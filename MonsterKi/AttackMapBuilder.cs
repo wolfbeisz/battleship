@@ -21,8 +21,8 @@ namespace MonsterKi
                     int currentValue = state[rowIndex][colIndex];
                     Coordinate currentCoordinate = new Coordinate(rowIndex, colIndex);
 
-                    if (currentValue != (int)Field.HIT 
-                        || currentValue != (int)Field.DEADLY_HIT) 
+                    if (currentValue == (int)Field.HIT 
+                        || currentValue == (int)Field.DEADLY_HIT) 
                     {
                         var ship = ships.Where(s => s.Cells.Contains(currentCoordinate)).ToList().Single();
 
@@ -54,7 +54,7 @@ namespace MonsterKi
         {
             if (!ship.Dead)
             {
-                Coordinate first = ship.Cells.First();
+                Coordinate first = ship.Cells.First(); // relies on implementation details of DetectShips
                 Coordinate last = ship.Cells.Last();
 
                 if (first.Row == last.Row) // horizontal
